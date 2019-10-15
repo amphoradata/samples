@@ -49,7 +49,6 @@ Now we've created an Amphora for our weather data, we can run the scripts in thi
 * `username` -> Amphora Data username
 * `password` -> Amphora Data password. Keep this secret!
 * `host` -> Amphora Data host. Probably `https://beta.amphoradata.com`
-* `amphora_id` -> the Id you copied in the step above.
 
 ## Run the code.
 
