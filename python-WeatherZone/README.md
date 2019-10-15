@@ -44,12 +44,12 @@ Now we've created an Amphora for our weather data, we can run the scripts in thi
 
 [The environment file](.env) contains configuration information. You'll need to set the following:
 
-wz_user -> Your WeatherZone API username. If you don't have one, you can leave this blank and change the code to pull from the github gist.
-wz_password -> WeatherZone API password. See note above.
-username -> Amphora Data username
-password -> Amphora Data password. Keep this secret!
-host -> Amphora Data host. Probably `https://beta.amphoradata.com`
-amphora_id -> the Id you copied in the step above.
+* `wz_user` -> Your WeatherZone API username. If you don't have one, you can leave this blank and change the code to pull from the github gist.
+* `wz_password` -> WeatherZone API password. See note above.
+* `username` -> Amphora Data username
+* `password` -> Amphora Data password. Keep this secret!
+* `host` -> Amphora Data host. Probably `https://beta.amphoradata.com`
+* `amphora_id` -> the Id you copied in the step above.
 
 ## Run the code.
 
