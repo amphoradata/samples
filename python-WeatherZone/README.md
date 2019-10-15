@@ -36,7 +36,7 @@ You don't need to explicity add the `t` property (the timestamp property). This 
 
 ## Copy the Id of the Amphora
 
-Now we've created an Amphora for our weather data, we can run the scripts in this repository. First, however, you'll need to replace the Amphora Id in [the environment file](.env) with the Id of the Amphora you just created. You can find the Id in your browsers navigation bar.
+Now we've created an Amphora for our weather data, we can run the scripts in this repository. First, however, you'll need to replace the Amphora Id in the [mapping file](mapping.py) with the Id of the Amphora you just created. You can find the Id in your browsers navigation bar. 
 
 > Copy the Amphora Id from the browsers navigation bar
 
@@ -46,7 +46,6 @@ Now we've created an Amphora for our weather data, we can run the scripts in thi
 
 wz_user -> Your WeatherZone API username. If you don't have one, you can leave this blank and change the code to pull from the github gist.
 wz_password -> WeatherZone API password. See note above.
-wz_lc -> WeatherZone location code.
 username -> Amphora Data username
 password -> Amphora Data password. Keep this secret!
 host -> Amphora Data host. Probably `https://beta.amphoradata.com`

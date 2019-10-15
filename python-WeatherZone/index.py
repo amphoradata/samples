@@ -4,6 +4,7 @@ from amphora_client import Configuration, ApiException
 import requests
 import hashlib
 from datetime import date, datetime
+from mapping import wz_locations
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -11,11 +12,9 @@ load_dotenv()
 # CONFIGURE
 wz_user = os.getenv('wz_user')
 wz_password = os.getenv('wz_password')
-wz_lc =os.getenv('wz_lc') # location code
 username=os.getenv('username')
 password=os.getenv('password')
 host=os.getenv('host')
-amphora_id = os.getenv('amphora_id')
 
 
 # EXTRACT
@@ -33,60 +32,65 @@ k=hash.hexdigest()
 
 wz_url = "https://ws.weatherzone.com.au/" # "https://gist.githubusercontent.com/xtellurian/3ebd37c62eab565ed2efc8b4ed794fba/raw/6ab9bca400be9bbc11df54e67b3e2538f581b263/wz.json"
 
-params = dict(
-    u=wz_user,
-    k=k,
-    lt='aploc',
-    format='json',
-    pdf='twc(period=24,interval=1,detail=2)',
-    lc=wz_lc
-)
+# this function runs a single ETL process for 1 WeatherZone location to one Amphora
+def etl(wz_lc, amphora_id ):
+    params = dict(
+        u=wz_user,
+        k=k,
+        lt='aploc',
+        format='json',
+        pdf='twc(period=24,interval=1,detail=2)',
+        lc=wz_lc
+    )
 
-r = requests.get(wz_url, params=params)
-data = r.json()
+    r = requests.get(wz_url, params=params)
+    data = r.json()
 
-forecasts = data['countries'][0]['locations'][0]['part_day_forecasts']['forecasts']
-
-
-# TRANSFORM
-now = datetime.utcnow()
-signals = []
-for f in forecasts: 
-    signals.append(dict(
-        t=f['utc_time'],
-        prediction_time = now.strftime("%m/%d/%Y, %H:%M:%S"),
-        temperature = f['temperature'],
-        description = f['icon_phrase'],
-        rain_prob = f['rain_prob']
-    ))
-
-# LOAD
-configuration = Configuration(host=host)
-
-# Create an instance of the Authentication class
-auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
-token_request = amphora_client.TokenRequest(username=username, password=password ) 
-
-try:
-
-    token = auth_api.api_authentication_request_post(token_request = token_request)
-    configuration.api_key["Authorization"] = "Bearer " + str(token)
-    client=amphora_client.ApiClient(configuration)
-    # create an instance of the Users API, now with Bearer token
-    users_api = amphora_client.UsersApi(client)
-    me = users_api.api_users_self_get()
-    print(me)
-
-    amphora_api = amphora_client.AmphoraeApi(client)
-    amphora = amphora_api.api_amphorae_id_get(amphora_id)
-    print(amphora)
-    c = 0
-    for s in signals:
-        print(f'sending signal {c}')
-        signal_post = amphora_api.api_amphorae_id_signals_values_post(amphora.id, request_body=s)
-        print(signal_post)
-        c = c+1
+    forecasts = data['countries'][0]['locations'][0]['part_day_forecasts']['forecasts']
 
 
-except ApiException as e:
-    print("Exception: %s\n" % e)
+    # TRANSFORM
+    now = datetime.utcnow()
+    signals = []
+    for f in forecasts: 
+        signals.append(dict(
+            t=f['utc_time'],
+            prediction_time = now.strftime("%m/%d/%Y, %H:%M:%S"),
+            temperature = f['temperature'],
+            description = f['icon_phrase'],
+            rain_prob = f['rain_prob']
+        ))
+
+    # LOAD
+    configuration = Configuration(host=host)
+
+    # Create an instance of the Authentication class
+    auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
+    token_request = amphora_client.TokenRequest(username=username, password=password ) 
+
+    try:
+
+        token = auth_api.api_authentication_request_post(token_request = token_request)
+        configuration.api_key["Authorization"] = "Bearer " + str(token)
+        client=amphora_client.ApiClient(configuration)
+        # create an instance of the Users API, now with Bearer token
+        users_api = amphora_client.UsersApi(client)
+        me = users_api.api_users_self_get()
+        print(me)
+
+        amphora_api = amphora_client.AmphoraeApi(client)
+        amphora = amphora_api.api_amphorae_id_get(amphora_id)
+        print(amphora)
+        c = 0
+        for s in signals:
+            print(f'sending signal {c}')
+            amphora_api.api_amphorae_id_signals_values_post(amphora.id, request_body=s)
+            c = c+1
+
+
+    except ApiException as e:
+        print("Exception: %s\n" % e)
+
+# for each WZ Location, run the ETL process
+for wz_lc, amphora_id in wz_locations().items():
+    etl(wz_lc, amphora_id)
