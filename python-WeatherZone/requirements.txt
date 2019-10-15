@@ -1,2 +1,3 @@
 amphoradata==0.0.2
 requests
+python-dotenv

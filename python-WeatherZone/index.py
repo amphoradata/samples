@@ -5,14 +5,17 @@ import requests
 import hashlib
 from datetime import date, datetime
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # CONFIGURE
-wz_user = os.environ['wz_user']
-wz_password = os.environ['wz_password']
-wz_lc =os.environ['wz_lc'] # location code
-username=os.environ['username']
-password=os.environ['password']
-host=os.environ['host']
-amphora_id = os.environ['amphora_id']
+wz_user = os.getenv('wz_user')
+wz_password = os.getenv('wz_password')
+wz_lc =os.getenv('wz_lc') # location code
+username=os.getenv('username')
+password=os.getenv('password')
+host=os.getenv('host')
+amphora_id = os.getenv('amphora_id')
 
 
 # EXTRACT
@@ -28,18 +31,16 @@ hash.update(f'{key}{wz_password}'.encode('utf-8'))
 k=hash.hexdigest()
 
 
-# wz_url = "https://ws.weatherzone.com.au/"
-wz_url = "https://gist.githubusercontent.com/xtellurian/3ebd37c62eab565ed2efc8b4ed794fba/raw/6ab9bca400be9bbc11df54e67b3e2538f581b263/wz.json"
+wz_url = "https://ws.weatherzone.com.au/" # "https://gist.githubusercontent.com/xtellurian/3ebd37c62eab565ed2efc8b4ed794fba/raw/6ab9bca400be9bbc11df54e67b3e2538f581b263/wz.json"
 
-# params = dict(
-#     u=wz_user,
-#     k=k,
-#     lt='aploc',
-#     format='json',
-#     pdf='twc(period=168,interval=1,detail=2)',
-#     lc=wz_lc
-# )
-params = dict()
+params = dict(
+    u=wz_user,
+    k=k,
+    lt='aploc',
+    format='json',
+    pdf='twc(period=168,interval=1,detail=2)',
+    lc=wz_lc
+)
 
 r = requests.get(wz_url, params=params)
 data = r.json()
