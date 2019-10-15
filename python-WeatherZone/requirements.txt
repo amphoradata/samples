@@ -1,0 +1,2 @@
+amphoradata==0.0.2
+requests

@@ -1,0 +1,8 @@
+version: "3"
+services:
+  index:
+    build: .
+    volumes:
+      - ${PWD}:/local
+    env_file: 
+      - ".env"
