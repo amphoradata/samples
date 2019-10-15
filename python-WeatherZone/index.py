@@ -38,7 +38,7 @@ params = dict(
     k=k,
     lt='aploc',
     format='json',
-    pdf='twc(period=168,interval=1,detail=2)',
+    pdf='twc(period=24,interval=1,detail=2)',
     lc=wz_lc
 )
 

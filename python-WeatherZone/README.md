@@ -1,4 +1,6 @@
-# WeatherZone API Sample
+[![Build Status](https://dev.azure.com/amphoradata/Public/_apis/build/status/WeatherZone_ETL?branchName=master)](https://dev.azure.com/amphoradata/Public/_build/latest?definitionId=6&branchName=master)
+
+# WeatherZone ETL Sample
 
 This sample shows you how to *Load* data from an external web API (in this case the WeatherZone API), *Transform* into an Amphora supported format, and *Load* into an Amphora for use on the Amphora Data platform.
 
@@ -67,5 +69,51 @@ python index.py
 
 ## View the Signals
 
-You should now be able to view the weather data on the Amphora Data website. Note that it may take up to a minute for the signal data to become available.
+You should now be able to view the weather data on the Amphora Data website. Note that it may take up to a minute for the signal data to become available, and look something like below. Note that string properties are not plottable.
+
+![Plot of temperature and rain_prob values](images/chart_screenshot.png)
+
+# Schedule the job
+
+There are many ways to schedule the job we've just coded. You could use a serverless platform like [Azure Functions](https://azure.microsoft.com/en-in/services/functions/) or [AWS Lambda](https://aws.amazon.com/lambda/), a CRON job in Linux or Kubernetes, or just schedule an appointment in your calendar and run it manually.
+
+In this example, we're going to use [Azure Pipelines](https://azure.microsoft.com/en-au/services/devops/pipelines/).
+
+## Get an Azure Devops Account
+
+Go to [Azure DevOps](https://dev.azure.com) and sign up, or sign in with an existing account.
+
+## Create variable groups with your credentials.
+
+Create two [variable groups](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml) in Azure Pipelines: `AmphoraData` and `WeatherZone`. 
+
+### AmphoraData Variable Group
+
+This group contains the following variables:
+
+* `host` - the Amphora Data host URL - probably https://beta.amphoradata.com
+* `username` - your Amphora Data username - probably your email.
+* `password` - your password. Make this a secret by clicking the lock button.
+
+### WeatherZone Variable Group
+
+This group contains the following variables:
+
+* `wz_user` - your WeatherZone API user id.
+* `wz_password` - your WeatherZone api password.
+
+
+## Fork this repository
+
+You'll need to give your Azure Pipelines account access to this repository. The easiest way to do that is to [fork](https://help.github.com/en/articles/fork-a-repo) this repository so you have your own copy.
+
+
+## Create a build pipeline
+
+Create a [new build pipeline](https://docs.microsoft.com/en-us/azure/devops/pipelines/create-first-pipeline), and choose the option to connect to a YAML file from GitHub. Select the repo you just created by forking this one, and find the [azure-pipelines.yml](azure-pipelines.yml) file.
+
+## Run the build pipeline.
+
+This build pipeline is scheduled to run every 6 hours. You can change those settings in [azure-pipelines.yml](azure-pipelines.yml).
+
 

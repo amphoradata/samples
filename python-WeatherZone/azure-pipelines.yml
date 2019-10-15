@@ -1,15 +1,25 @@
-# Docker
-# Build a Docker image 
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
-- master
+  branches:
+    exclude:
+    - "*"
+    - refs/tags/*
+    - refs/heads/*
+
+schedules:
+- cron: "0 */6 * * *"
+  displayName: Every 6 hours
+  branches:
+    include:
+    - master
+  always: true # run even if there's no source changes
 
 resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  - group: AmphoraData
+  - group: WeatherZone
+
 
 stages:
 - stage: Build
@@ -23,5 +33,5 @@ stages:
     - script: docker build -t $TAG $(Build.SourcesDirectory)/python-WeatherZone
       displayName: Build an image
       env:
-        TAG: $(tag)
+        TAG: '$(Build.BuildId)'
       
