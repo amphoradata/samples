@@ -20,10 +20,8 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - task: Docker@2
+    - script: docker build -t $TAG $(Build.SourcesDirectory)/python-WeatherZone/Dockerfile
       displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/python-WeatherZone/Dockerfile'
-        tags: |
-          $(tag)
+      env:
+        TAG: $(tag)
+      
