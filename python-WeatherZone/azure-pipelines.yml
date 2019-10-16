@@ -22,11 +22,11 @@ variables:
 
 
 stages:
-- stage: Build
+- stage: Main
   displayName: Build image
   jobs:  
-  - job: Build
-    displayName: Build
+  - job: LoadData
+    displayName: Load Data from WZ into Amphorae
     pool:
       vmImage: 'ubuntu-latest'
     steps:
