@@ -1,10 +1,9 @@
 import os
 import amphora_client
 from amphora_client import Configuration, ApiException
-import requests
-import hashlib
-from datetime import date, datetime
+from datetime import datetime
 from mapping import wz_locations
+from weatherzone import load_forecasts
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -16,38 +15,10 @@ username=os.getenv('username')
 password=os.getenv('password')
 host=os.getenv('host')
 
-
-# EXTRACT
-# download data from Weatherzone
-
-def make_key(day, month, year):
-    return (day * 2) + (month * 300) + ( (year % 100) * 170000)
-
-today = date.today()
-key = make_key(today.day, today.month, today.year)
-hash = hashlib.md5()
-hash.update(f'{key}{wz_password}'.encode('utf-8'))
-k=hash.hexdigest()
-
-
-wz_url = "https://ws.weatherzone.com.au/" # "https://gist.githubusercontent.com/xtellurian/3ebd37c62eab565ed2efc8b4ed794fba/raw/6ab9bca400be9bbc11df54e67b3e2538f581b263/wz.json"
-
 # this function runs a single ETL process for 1 WeatherZone location to one Amphora
 def etl(wz_lc, amphora_id ):
-    params = dict(
-        u=wz_user,
-        k=k,
-        lt='aploc',
-        format='json',
-        pdf='twc(period=24,interval=1,detail=2)',
-        lc=wz_lc
-    )
 
-    r = requests.get(wz_url, params=params)
-    data = r.json()
-
-    forecasts = data['countries'][0]['locations'][0]['part_day_forecasts']['forecasts']
-
+    forecasts = load_forecasts(wz_user, wz_password, wz_lc)
 
     # TRANSFORM
     now = datetime.utcnow()
