@@ -14,7 +14,7 @@ namespace dotnet_NEM
     public static class dotnet_NEM
     {
         // this is a HTTP Trigger for testing locally.
-        // [FunctionName("dotnet_NEM")] 
+        [FunctionName("dotnet_NEM")] 
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log,
