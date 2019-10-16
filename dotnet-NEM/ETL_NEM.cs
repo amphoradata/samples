@@ -10,7 +10,7 @@ namespace dotnet_NEM
     public static class ETL_NEM
     {
         [FunctionName("ETL_NEM")]
-        public static async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer,
+        public static async Task Run([TimerTrigger("0 */6 * * *")]TimerInfo myTimer,
                                ILogger log,
                                ExecutionContext context)
         {
@@ -30,5 +30,5 @@ namespace dotnet_NEM
             await engine.Run();
         }
     }
-    
+
 }

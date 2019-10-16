@@ -4,6 +4,7 @@ using Newtonsoft.Json.Converters;
 
 namespace dotnet_NEM
 {
+    // Represents the data we want to put in an Amphora
     public class AmphoraSignal
     {
         public System.DateTimeOffset T { get; set; }

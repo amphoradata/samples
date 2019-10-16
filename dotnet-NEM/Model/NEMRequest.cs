@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace dotnet_NEM
 {
+    // This class represents a request made to the NEM API
     public partial class NEMRequest
     {
         public NEMRequest()

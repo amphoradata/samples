@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace dotnet_NEM
 {
+    // This class represents data returned from the NEM API
     public partial class NEMResponse
     {
         [JsonProperty("5MIN")]

@@ -14,11 +14,10 @@ namespace dotnet_NEM
         private readonly ILogger log;
         private IMapper mapper;
 
-       
-
         public Engine(EngineConfig settings, ILogger log)
         {
             settings.ThrowIfInvalid();
+            // we're using AutoMapper to transform the data
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Point, AmphoraSignal>()
@@ -29,14 +28,15 @@ namespace dotnet_NEM
             });
             this.mapper = config.CreateMapper();
             this.settings = settings;
-            
             this.log = log;
         }
         public async Task Run()
         {
+            // create a client for interacting with the NEM API
             var nemClient = new NEMClient();
             var data = await nemClient.Get5MinDataAsync();
 
+            // Amphora Dara configuration
             var config = new Configuration()
             {
                 BasePath = settings.Host
@@ -44,15 +44,13 @@ namespace dotnet_NEM
 
             var auth = new AuthenticationApi(config);
             var token = await auth.ApiAuthenticationRequestPostAsync(new TokenRequest(settings.UserName, settings.Password));
-            token  = token.Trim('\"');
-            config.ApiKey.Add("Authorization", $"Bearer {token}");
+            token  = token.Trim('\"'); // there may be extra quotes on that string
+            config.ApiKey.Add("Authorization", $"Bearer {token}"); // add the token to request headers
 
             try
             {
-
                 var amphoraApi = new AmphoraeApi(config);
-                
-                var map = Mapping.Map;
+                var map = Mapping.Map; // load the Map
 
                 foreach (var p in data.Data)
                 {
@@ -69,6 +67,5 @@ namespace dotnet_NEM
                 throw ex;
             }
         }
-
     }
 }
