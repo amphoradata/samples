@@ -7,6 +7,7 @@ using AmphoraData.Client.Client;
 using AmphoraData.Client.Model;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace dotnet_NEM
 {
@@ -69,8 +70,10 @@ namespace dotnet_NEM
             }
         }
 
+
         private async Task UploadPointsAsync(IEnumerable<Point> points, AmphoraeApi amphoraApi, System.Collections.Generic.Dictionary<Region, string> map)
         {
+            log.LogTrace($"First Point: {JsonConvert.SerializeObject(points.FirstOrDefault())}");
             foreach (var p in points)
             {
                 var s = mapper.Map<AmphoraSignal>(p);
