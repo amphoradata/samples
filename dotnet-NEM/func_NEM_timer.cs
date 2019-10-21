@@ -1,25 +1,21 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace dotnet_NEM
 {
-    public static class dotnet_NEM
+    public static class ETL_NEM
     {
-        // this is a HTTP Trigger for testing locally.
-        [FunctionName("dotnet_NEM")] 
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-            ILogger log,
-            ExecutionContext context)
+        [FunctionName("NEM_timer")]
+        public static async Task Run([TimerTrigger("0 0 */6 * * *")]TimerInfo myTimer,
+                               ILogger log,
+                               ExecutionContext context)
         {
+            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
@@ -32,9 +28,7 @@ namespace dotnet_NEM
 
             var engine = new Engine(engineConfig, log);
             await engine.Run();
-
-            return new OkResult();
         }
     }
-}
 
+}
