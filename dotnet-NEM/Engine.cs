@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using AmphoraData.Client.Api;
-using AmphoraData.Client.Client;
-using AmphoraData.Client.Model;
+using AmphoraData.Client;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -38,49 +38,45 @@ namespace dotnet_NEM
             // create a client for interacting with the NEM API
             var nemClient = new NEMClient();
             var data = await nemClient.Get5MinDataAsync();
+            var httpClient = new HttpClient();
+            var authClient = new AuthenticationClient(httpClient);
 
-            // Amphora Dara configuration
-            var config = new Configuration()
-            {
-                BasePath = settings.Host
-            };
+            var token = await authClient.RequestTokenAsync(new TokenRequest{Username = settings.UserName, Password = settings.Password});
 
-            var auth = new AuthenticationApi(config);
-            var token = await auth.ApiAuthenticationRequestPostAsync(new TokenRequest(settings.UserName, settings.Password));
             token = token.Trim('\"'); // there may be extra quotes on that string
-            config.ApiKey.Add("Authorization", $"Bearer {token}"); // add the token to request headers
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             try
             {
-                var amphoraApi = new AmphoraeApi(config);
+                var signalClient = new UploadSignalClient(httpClient);
                 var map = Mapping.Map; // load the Map
                 // run in parallel for performance
-                var nswTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Nsw1), amphoraApi, map));
-                var vicTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Vic1), amphoraApi, map));
-                var qldTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Qld1), amphoraApi, map));
-                var saTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Sa1), amphoraApi, map));
-                var tasTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Tas1), amphoraApi, map));
+                var nswTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Nsw1), signalClient, map));
+                var vicTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Vic1), signalClient, map));
+                var qldTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Qld1), signalClient, map));
+                var saTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Sa1), signalClient, map));
+                var tasTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Tas1), signalClient
+                , map));
 
                 await Task.WhenAll(nswTask, vicTask, qldTask, saTask, tasTask);
             }
             catch (ApiException ex)
             {
-                log.LogError($"Engine Failed, code: {ex.ErrorCode} ", ex);
+                log.LogError($"Engine Failed, Message: {ex.Message} ", ex);
                 throw ex;
             }
         }
 
 
-        private async Task UploadPointsAsync(IEnumerable<Point> points, AmphoraeApi amphoraApi, System.Collections.Generic.Dictionary<Region, string> map)
+        private async Task UploadPointsAsync(IEnumerable<Point> points, UploadSignalClient signalClient, System.Collections.Generic.Dictionary<Region, string> map)
         {
             log.LogTrace($"First Point: {JsonConvert.SerializeObject(points.FirstOrDefault())}");
             foreach (var p in points)
             {
                 var s = mapper.Map<AmphoraSignal>(p);
                 var id = map[p.Region];
-                var amphora = amphoraApi.ApiAmphoraeIdGet(id);
-                log.LogInformation($"Using Amphora {amphora.Name} for region {Enum.GetName(typeof(Region), p.Region)}");
-                await amphoraApi.ApiAmphoraeIdSignalsValuesPostAsync(id, s.ToDictionary());
+                log.LogInformation($"Using Amphora {id} for region {Enum.GetName(typeof(Region), p.Region)}");
+                await signalClient.ValueAsync(id, s.ToDictionary());
             }
         }
     }
