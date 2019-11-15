@@ -105,7 +105,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
         print(f'Uploading signals to {amphora.name} {amphora.id}')
         c = 0
         for s in signals:
-            amphora_api.amphorae_upload_signal(amphora.id, request_body = s) # this sends the data to Amphora Data
+            amphora_api.amphorae_upload_signal_value(amphora.id, request_body = s) # this sends the data to Amphora Data
             c = c+1
 
         print(f'Sent {len(signals)} signals')
