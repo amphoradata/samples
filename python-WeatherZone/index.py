@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv(verbose=True)
+
 import os
 import json
 import amphora_client
@@ -8,10 +11,7 @@ from src.towns import towns
 from src.signals import signals
 from src.operations import create_or_update_amphorae, upload_signals_to_amphora
 
-from dotenv import load_dotenv
-load_dotenv()
-
-wz_user = os.getenv('wz_user')
+wz_user = os.getenv("wz_user")
 wz_password = os.getenv('wz_password')
 
 towns = towns()
