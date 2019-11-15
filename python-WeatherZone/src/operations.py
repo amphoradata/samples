@@ -27,8 +27,10 @@ def create_or_update_amphorae(amphora_map, location_info):
 
     new_map = dict()
     try:
-        token = auth_api.authentication_request_token(token_request = token_request)
+        print("Logging in")
+        token = auth_api.authentication_request_token(token_request = token_request, x_amphoradata_version="0")
         configuration.api_key["Authorization"] = "Bearer " + str(token)
+        print("Logged in")
         client=amphora_client.ApiClient(configuration)
         amphora_api = amphora_client.AmphoraeApi(client)
         for key in amphora_map:
@@ -43,24 +45,24 @@ def create_or_update_amphorae(amphora_map, location_info):
                 desc = 'WeatherZone data, from ' + wzloc['name'] + '. WeatherZone code: ' + wzloc['code'] + ', PostCode: ' + wzloc['postcode']
                 dto = amphora_client.CreateAmphoraDto(name=name, description=desc, price=0, lat=wzloc['latitude'], lon=wzloc['longitude'])
                 
-                res = amphora_api.amphorae_create(dto)
+                res = amphora_api.amphorae_create(create_amphora_dto=dto, x_amphoradata_version="0")
                 # now create the signals
                 print("Creating Signals")
                 for s in signals():
-                    amphora_api.amphorae_create_signal(res.id, s)
+                    amphora_api.amphorae_create_signal(res.id, signal_dto=s, x_amphoradata_version="0")
 
                 new_map[key] = res.id
             else:
-                a = amphora_api.amphorae_read(id)
+                a = amphora_api.amphorae_read(id, x_amphoradata_version="0")
                 print(f'Using existing amphora: {a.name}')
                 new_map[key] = id
-                existing_signals = amphora_api.amphorae_get_signals(id)
+                existing_signals = amphora_api.amphorae_get_signals(id, x_amphoradata_version="0")
                 if(len(existing_signals) > 0):
                     print('Signals exist already')
                 else:
                     print('Adding signals')
                     for s in signals():
-                        amphora_api.amphorae_create_signal(id, s)
+                        amphora_api.amphorae_create_signal(id, signal_dto= s, x_amphoradata_version="0")
 
     except ApiException as e:
         print("Error Create or update amphorae: %s\n" % e)
@@ -95,17 +97,18 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
     token_request = amphora_client.TokenRequest(username=username, password=password ) 
 
     try:
-
-        token = auth_api.authentication_request_token(token_request = token_request)
+        print("Logging In")
+        token = auth_api.authentication_request_token(token_request = token_request, x_amphoradata_version="0")
         configuration.api_key["Authorization"] = "Bearer " + str(token)
+        print("Logged in")
         client=amphora_client.ApiClient(configuration)
 
         amphora_api = amphora_client.AmphoraeApi(client)
-        amphora = amphora_api.amphorae_read(amphora_id)
+        amphora = amphora_api.amphorae_read(amphora_id, x_amphoradata_version="0")
         print(f'Uploading signals to {amphora.name} {amphora.id}')
         c = 0
         for s in signals:
-            amphora_api.amphorae_upload_signal_value(amphora.id, request_body = s) # this sends the data to Amphora Data
+            amphora_api.amphorae_upload_signal(amphora.id, request_body = s, x_amphoradata_version="0") # this sends the data to Amphora Data
             c = c+1
 
         print(f'Sent {len(signals)} signals')
