@@ -115,3 +115,4 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
 
     except ApiException as e:
         print("Exception: %s\n" % e)
+        raise e
