@@ -15,6 +15,9 @@ namespace dotnet_NEM
         // numeric below
         public double Price { get; set; }
         public double ScheduledGeneration { get; set; }
+        public double TotalDemand { get; set; }
+        public double NetInterchange { get; set; }
+        public int Generation { get; set; }
 
         public Dictionary<string, object> ToDictionary()
         {

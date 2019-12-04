@@ -41,21 +41,21 @@ namespace dotnet_NEM
             var httpClient = new HttpClient();
             var authClient = new AuthenticationClient(httpClient);
 
-            var token = await authClient.RequestTokenAsync(new TokenRequest{Username = settings.UserName, Password = settings.Password});
+            var token = await authClient.RequestTokenAsync("0", new TokenRequest { Username = settings.UserName, Password = settings.Password });
 
             token = token.Trim('\"'); // there may be extra quotes on that string
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             try
             {
-                var signalClient = new UploadSignalClient(httpClient);
+                var amphoraeClient = new AmphoraeClient(httpClient);
                 var map = Mapping.Map; // load the Map
                 // run in parallel for performance
-                var nswTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Nsw1), signalClient, map));
-                var vicTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Vic1), signalClient, map));
-                var qldTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Qld1), signalClient, map));
-                var saTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Sa1), signalClient, map));
-                var tasTask = Task.Run(() => UploadPointsAsync(data.Data.Where(d => d.Region == Region.Tas1), signalClient
+                var nswTask = Task.Run(() => UploadPointsAsync(Region.Nsw1, data.Data.Where(d => d.Region == Region.Nsw1), amphoraeClient, map));
+                var vicTask = Task.Run(() => UploadPointsAsync(Region.Vic1, data.Data.Where(d => d.Region == Region.Vic1), amphoraeClient, map));
+                var qldTask = Task.Run(() => UploadPointsAsync(Region.Qld1, data.Data.Where(d => d.Region == Region.Qld1), amphoraeClient, map));
+                var saTask = Task.Run(() => UploadPointsAsync(Region.Sa1, data.Data.Where(d => d.Region == Region.Sa1), amphoraeClient, map));
+                var tasTask = Task.Run(() => UploadPointsAsync(Region.Tas1, data.Data.Where(d => d.Region == Region.Tas1), amphoraeClient
                 , map));
 
                 await Task.WhenAll(nswTask, vicTask, qldTask, saTask, tasTask);
@@ -68,16 +68,18 @@ namespace dotnet_NEM
         }
 
 
-        private async Task UploadPointsAsync(IEnumerable<Point> points, UploadSignalClient signalClient, System.Collections.Generic.Dictionary<Region, string> map)
+        private async Task UploadPointsAsync(Region r, IEnumerable<Point> points, AmphoraeClient amphoraeClient, System.Collections.Generic.Dictionary<Region, string> map)
         {
             log.LogTrace($"First Point: {JsonConvert.SerializeObject(points.FirstOrDefault())}");
+            var batch = new List<Dictionary<string, object>>();
             foreach (var p in points)
             {
                 var s = mapper.Map<AmphoraSignal>(p);
-                var id = map[p.Region];
-                log.LogInformation($"Using Amphora {id} for region {Enum.GetName(typeof(Region), p.Region)}");
-                await signalClient.ValueAsync(id, s.ToDictionary());
+                batch.Add(s.ToDictionary());
             }
+            var id = map[r];
+            log.LogInformation($"Using Amphora {id} for region {Enum.GetName(typeof(Region), r)}");
+            await amphoraeClient.UploadSignalBatchAsync(id, "0", batch);
         }
     }
 }
