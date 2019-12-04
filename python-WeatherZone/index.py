@@ -5,7 +5,7 @@ import os
 import json
 import amphora_client
 
-from src.mapping import wz_locations, wz_save, wz_load
+from src.mapping import wz_save, wz_load
 from src.weatherzone import load_locations
 from src.towns import towns
 from src.signals import signals
