@@ -6,16 +6,6 @@ def towns():
         ('melbourne', 'vic'),
         ('adelaide', 'sa'),
         ('berri', 'sa'),
-        ('perth', 'wa')
-    ]
-
-'''
-        ('sydney', 'nsw'),
-        ('albury', 'nsw'),
-        ('brisbane', 'qld'),
-        ('melbourne', 'vic'),
-        ('adelaide', 'sa'),
-        ('berri', 'sa'),
         ('perth', 'wa'),
         ('surfers paradise', 'qld')
         ('newcastle', 'nsw'),
@@ -61,4 +51,4 @@ def towns():
         ('mount gambier', 'sa'),
         ('lismore', 'nsw'),
         ('nelson bay', 'nsw')
-'''
+    ]
