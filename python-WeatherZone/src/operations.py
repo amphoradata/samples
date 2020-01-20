@@ -23,7 +23,7 @@ def create_or_update_amphorae(amphora_map, location_info):
 
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
-    token_request = amphora_client.TokenRequest(username=username, password=password ) 
+    token_request = amphora_client.TokenRequest(username=username, password=password )
 
     new_map = dict()
     try:
@@ -44,7 +44,7 @@ def create_or_update_amphorae(amphora_map, location_info):
                 name = 'Weather: ' + wzloc['name'] + ' (' + wzloc['state'] + ')'
                 desc = 'WeatherZone data, from ' + wzloc['name'] + '. WeatherZone code: ' + wzloc['code'] + ', PostCode: ' + wzloc['postcode']
                 dto = amphora_client.CreateAmphoraDto(name=name, description=desc, price=0, lat=wzloc['latitude'], lon=wzloc['longitude'])
-                
+
                 res = amphora_api.amphorae_create(create_amphora_dto=dto)
                 # now create the signals
                 print("Creating Signals")
@@ -67,7 +67,7 @@ def create_or_update_amphorae(amphora_map, location_info):
     except ApiException as e:
         print("Error Create or update amphorae: %s\n" % e)
         raise e
-    
+
     return new_map
 
 # this function runs a single ETL process for 1 WeatherZone location to one Amphora
@@ -77,7 +77,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
 
     # TRANSFORM
     signals = []
-    for f in forecasts: 
+    for f in forecasts:
         signals.append(dict(
             t=f['utc_time'],
             temperature = f['temperature'],
@@ -94,7 +94,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
 
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
-    token_request = amphora_client.TokenRequest(username=username, password=password ) 
+    token_request = amphora_client.TokenRequest(username=username, password=password )
 
     try:
         print("Logging In")
