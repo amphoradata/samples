@@ -20,6 +20,10 @@ def load_locations(wz_user, wz_password, town, state):
     r = requests.get(wz_url, params=params)
     data = r.json()
 
+    #if a town name doesn't match a weatherzone location print the town
+    if len(data['countries']) == 0:
+        print("problem: " + town + ": " + state)
+
     locations = data['countries'][0]['locations']
     return locations
 
