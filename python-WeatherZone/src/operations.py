@@ -87,7 +87,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
         ))
 
     # LOAD
-    configuration = Configuration(host=host)
+    configuration = Configuration()
 
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
