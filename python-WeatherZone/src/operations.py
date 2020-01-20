@@ -9,17 +9,14 @@ from src.weatherzone import load_forecasts, load_locations
 
 wz_user = os.getenv('wz_user')
 wz_password = os.getenv('wz_password')
-host=os.getenv('host')
 username=os.getenv('username')
 password=os.getenv('password')
-
-print(f'Using host: {host}')
 
 # amphora_map == dict from wz location id to amphora id
 # location_info == dict from wz location to wz location information
 def create_or_update_amphorae(amphora_map, location_info):
     # LOAD
-    configuration = Configuration(host=host)
+    configuration = Configuration()
 
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
