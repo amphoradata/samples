@@ -22,7 +22,7 @@ def load_locations(wz_user, wz_password, town, state):
 
     #if a town name doesn't match a weatherzone location print the town
     if len(data['countries']) == 0:
-        print("problem: " + town + ": " + state)
+        raise Exception('weatherzone could not find {} ({}). Try another location'.format(town, state))
 
     locations = data['countries'][0]['locations']
     return locations
