@@ -41,6 +41,7 @@ def towns():
         ('melbourne', 'vic'),
         ('melton', 'vic'),
         ('mildura', 'vic'),
+        ('mitcham', 'vic'),
         ('shepparton', 'vic'),
         ('traralgon', 'vic'),
         ('warragul', 'vic'),
