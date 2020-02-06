@@ -17,7 +17,7 @@ password=os.getenv('password')
 def create_or_update_amphorae(amphora_map, location_info):
     # LOAD
     configuration = Configuration()
-
+    print(f'using host {configuration.host}')
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
     token_request = amphora_client.TokenRequest(username=username, password=password )
@@ -88,7 +88,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
 
     # LOAD
     configuration = Configuration()
-
+    print(f'using host {configuration.host}')
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
     token_request = amphora_client.TokenRequest(username=username, password=password )
