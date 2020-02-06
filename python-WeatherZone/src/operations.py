@@ -103,7 +103,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
         amphora_api = amphora_client.AmphoraeApi(client)
         amphora = amphora_api.amphorae_read(amphora_id)
         print(f'Uploading signals to {amphora.name} {amphora.id}')
-
+        print(f'Properties of first signal val: {signals[0].keys()}')
         amphora_api.amphorae_upload_signal_batch(amphora.id, request_body = signals) # this sends the data to Amphora Data
 
         print(f'Sent {len(signals)} signals')
