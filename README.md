@@ -12,3 +12,6 @@ ETL, or Extract-Transform-Load, is a pattern for moving data. In the [python-Wea
 
 In the [dotnet-NEM](dotnet-NEM/README.md) sample, we show how to use C# and the dotnet Amphora Data SDK to pull data from a public API and load it into Amphorae.
 
+## Create PNG raster from NDVI geotiff (R and python)
+
+In this example, we show you how to take an NDVI geotiff file and create a nice PNG raster that you can overlay onto other images, e.g. Satellite
