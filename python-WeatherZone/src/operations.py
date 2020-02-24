@@ -17,7 +17,7 @@ password=os.getenv('password')
 def create_or_update_amphorae(amphora_map, location_info):
     # LOAD
     configuration = Configuration()
-
+    print(f'using host {configuration.host}')
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
     token_request = amphora_client.TokenRequest(username=username, password=password )
@@ -88,7 +88,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
 
     # LOAD
     configuration = Configuration()
-
+    print(f'using host {configuration.host}')
     # Create an instance of the Authentication class
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
     token_request = amphora_client.TokenRequest(username=username, password=password )
@@ -103,7 +103,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
         amphora_api = amphora_client.AmphoraeApi(client)
         amphora = amphora_api.amphorae_read(amphora_id)
         print(f'Uploading signals to {amphora.name} {amphora.id}')
-
+        print(f'Properties of first signal val: {signals[0].keys()}')
         amphora_api.amphorae_upload_signal_batch(amphora.id, request_body = signals) # this sends the data to Amphora Data
 
         print(f'Sent {len(signals)} signals')

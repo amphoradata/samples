@@ -1,4 +1,4 @@
-from weatherzone import generate_key
+from src.weatherzone import generate_key
 import argparse
 
 parser = argparse.ArgumentParser(description='Print your WeatherZone key.')
