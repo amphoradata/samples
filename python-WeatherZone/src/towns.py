@@ -1,6 +1,6 @@
 def towns():
     return [
-        ('canberra', 'act'), 
+        ('canberra', 'act'),
         ('albury', 'nsw'),
         ('bathurst', 'nsw'),
         ('bowral', 'nsw'),
