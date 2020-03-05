@@ -2,7 +2,7 @@ import os
 
 from amphora_extensions import file_uploader
 import amphora_client
-from amphora_client import Configuration, ApiException
+from amphora_client import Configuration, ApiException, Signal
 
 from src.signals import signals
 from src.weatherzone import load_forecasts, load_locations
@@ -22,6 +22,7 @@ def create_or_update_amphorae(amphora_map, location_info):
     auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
     token_request = amphora_client.TokenRequest(username=username, password=password )
 
+
     new_map = dict()
     try:
         print("Logging in")
@@ -30,6 +31,7 @@ def create_or_update_amphorae(amphora_map, location_info):
         print("Logged in")
         client=amphora_client.ApiClient(configuration)
         amphora_api = amphora_client.AmphoraeApi(client)
+
         for key in amphora_map:
             id = amphora_map[key]
             if(id == None):
@@ -40,26 +42,30 @@ def create_or_update_amphorae(amphora_map, location_info):
                 # create the details of the Amphora
                 name = 'Weather: ' + wzloc['name'] + ' (' + wzloc['state'] + ')'
                 desc = 'WeatherZone data, from ' + wzloc['name'] + '. WeatherZone code: ' + wzloc['code'] + ', PostCode: ' + wzloc['postcode']
-                dto = amphora_client.CreateAmphoraDto(name=name, description=desc, price=0, lat=wzloc['latitude'], lon=wzloc['longitude'])
+                labels='Weather,forecast,timeseries'
+                ts_cs_id='Weatherzone_Forecast'
+                dto = amphora_client.CreateAmphora(name=name, description=desc, price=2,
+                labels=labels, lat=wzloc['latitude'], lon=wzloc['longitude'],
+                    terms_and_conditions_id=ts_cs_id)
 
-                res = amphora_api.amphorae_create(create_amphora_dto=dto)
+                res = amphora_api.amphorae_create(create_amphora=dto)
                 # now create the signals
                 print("Creating Signals")
                 for s in signals():
-                    amphora_api.amphorae_create_signal(res.id, signal_dto=s)
+                    amphora_api.amphorae_signals_create_signal(res.id, signal=s)
 
                 new_map[key] = res.id
             else:
                 a = amphora_api.amphorae_read(id)
                 print(f'Using existing amphora: {a.name}')
                 new_map[key] = id
-                existing_signals = amphora_api.amphorae_get_signals(id)
+                existing_signals = amphora_api.amphorae_signals_get_signals(id)
                 if(len(existing_signals) > 0):
                     print('Signals exist already')
                 else:
                     print('Adding signals')
                     for s in signals():
-                        amphora_api.amphorae_create_signal(id, signal_dto= s)
+                        amphora_api.amphorae_signals_create_signal(id, signal= s)
 
     except ApiException as e:
         print("Error Create or update amphorae: %s\n" % e)
@@ -83,7 +89,8 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
             windSpeed = f['wind_speed'],
             windDirection = f['wind_direction'],
             cloudCover = f['cloud_cover_percent'],
-            pressure = f['pressure']
+            pressure = f['pressure'],
+            rainfallRate = f['rate']
         ))
 
     # LOAD
@@ -104,7 +111,7 @@ def upload_signals_to_amphora(wz_lc, amphora_id ):
         amphora = amphora_api.amphorae_read(amphora_id)
         print(f'Uploading signals to {amphora.name} {amphora.id}')
         print(f'Properties of first signal val: {signals[0].keys()}')
-        amphora_api.amphorae_upload_signal_batch(amphora.id, request_body = signals) # this sends the data to Amphora Data
+        amphora_api.amphorae_signals_upload_signal_batch(amphora.id, request_body = signals) # this sends the data to Amphora Data
 
         print(f'Sent {len(signals)} signals')
 
