@@ -7,10 +7,10 @@ Step 1: Get Amphora Data python SDK
 
 Step 2: Define the model that gets updated in real-time
 
-Step 3: Import librarys and login to Amphora
+Step 3: Import libraries and login to Amphora
 
 Step 4: Create Amphora and signal
 
 Step 5: Update signal
 
-Step 6: Set up GitHub yml to update Amphora
+Step 6: Automate Amphora updates
