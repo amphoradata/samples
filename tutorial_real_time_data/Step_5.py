@@ -21,7 +21,7 @@ configuration.api_key["Authorization"] = "Bearer " + res
 amphora_api = a10a.AmphoraeApi(a10a.ApiClient(configuration))
 
 # Get existing Amphora ID
-File_object = open("Amphora_id.txt","r") 
+File_object = open("tutorial_real_time_data/Amphora_id.txt","r") 
 Amphora_id = File_object.read()
 File_object.close()
 
