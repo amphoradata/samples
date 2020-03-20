@@ -1,17 +1,16 @@
-# Amphora Data Samples
+# Tutorial to load real time data into Amphora Data
+Step by step guide to set up real time loading of data to amphoradata.com
 
-This repository contains sample projects to help you get started on the Amphora Data platform. Many of these samples are actually run every day by our team.
+You can access this repo at https://github.com/amphoradata/samples
 
-## WeatherZone ETL (python)
+Step 1: Get Amphora Data python SDK
 
-[![Build Status](https://dev.azure.com/amphoradata/Public/_apis/build/status/WeatherZone_ETL?branchName=master)](https://dev.azure.com/amphoradata/Public/_build/latest?definitionId=6&branchName=master)
+Step 2: Define the model that gets updated in real-time
 
-ETL, or Extract-Transform-Load, is a pattern for moving data. In the [python-WeatherZone](python-WeatherZone/README.md) sample, you can see how you can connect two API's together by extracting data from the WeatherZone API and loading them into several Amphorae.
+Step 3: Import librarys and login to Amphora
 
-## National Electricity Market (C#)
+Step 4: Create Amphora and signal
 
-In the [dotnet-NEM](dotnet-NEM/README.md) sample, we show how to use C# and the dotnet Amphora Data SDK to pull data from a public API and load it into Amphorae.
+Step 5: Update signal
 
-## Create PNG raster from NDVI geotiff (R and python)
-
-In this example, we show you how to take an NDVI geotiff file and create a nice PNG raster that you can overlay onto other images, e.g. Satellite
+Step 6: Set up GitHub yml to update Amphora

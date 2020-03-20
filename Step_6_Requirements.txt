@@ -1,0 +1,5 @@
+amphoradata==0.7.4
+requests
+python-dotenv
+matplotlib
+pandas
