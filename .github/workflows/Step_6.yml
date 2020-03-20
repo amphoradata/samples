@@ -22,10 +22,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r Step_6_Requirements.txt
-    - name: Run Step_5.py
+        pip install -r tutorial_real_time_data/Step_6_Requirements.txt
+    - name: Run tutorial_real_time_data/Step_5.py
       env:
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
       run: |
-        python Step_5.py
+        python tutorial_real_time_data/Step_5.py
