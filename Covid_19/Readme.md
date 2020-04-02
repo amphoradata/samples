@@ -31,13 +31,18 @@ country_id_stor.append([country,amphora.amphora_id])
 ```
 
 We can then create the different signals as
-``` amphora.create_signal("confirmedCases", attributes={"units":"No"}) ```
+``` 
+amphora.create_signal("confirmedCases", attributes={"units":"No"}) 
+```
 then push the appropriate signal with
-``` amphora.push_signals_dict_array(signals)``` 
+```
+amphora.push_signals_dict_array(signals)
+``` 
 
 #### H4 Step 3: Estimate SIR model parameters
 For our model, we will use a Susceptible (S)-Infected (I)-Recovered (R)-Dead (D) model. This compartmentalises all of a population into four types and defines the transition rates between each compartment. Formally the model is defined as a set of differential equations
-```dS[t]/dt = - beta * S[t] * I[t]
+```
+dS[t]/dt = - beta * S[t] * I[t]
 dI[t]/dt = beta * S[t] * I[t] - alpha * I[t] - gamma * I[t]
 dR[t]/dt = alpha * I[t]
 dD[t]/dt = gamma * I[t]
@@ -68,7 +73,8 @@ for t in range(1,T-2):
 Note we use a 7 day moving average to get our derivatives rather than the day difference. This is because numbers in most countries are still quite small and fluctuate like a Poisson distribution. 
 
 Assuming our parameters change over time and solving for our parameters gives us
-```beta[t] = - dS[t]/dt / (S[t] * I[t])
+```
+beta[t] = - dS[t]/dt / (S[t] * I[t])
 alpha[t] = dR[t]/dt / I[t]
 gamma[t] = dD[t]/dt / I[t]
 ```
