@@ -163,3 +163,12 @@ plt.subplot(236)
 plt.plot(gamma[-28:-1] )
 plt.title('Death rate gamma (%)')
 plt.show()
+
+## Upload parameters to Amphora
+amphora = client.get_amphora(amphora_id)
+amphora.create_signal("gamma", attributes={"units":"%"})
+amphora.create_signal("alpha", attributes={"units":"%"})
+amphora.create_signal("beta", attributes={"units":"%*10^13"})
+
+## Update signals
+amphora.push_signals_dict_array(signals)
