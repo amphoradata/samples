@@ -40,7 +40,8 @@ For our model, we will use a Susceptible (S)-Infected (I)-Recovered (R)-Dead (D)
 ```dS[t]/dt = - beta * S[t] * I[t]
 dI[t]/dt = beta * S[t] * I[t] - alpha * I[t] - gamma * I[t]
 dR[t]/dt = alpha * I[t]
-dD[t]/dt = gamma * I[t]```
+dD[t]/dt = gamma * I[t]
+```
 
 As we don't have the derivatives, we need to compute them from the data that we have. We use
 ```
@@ -63,13 +64,14 @@ for t in range(1,T-2):
       dIdt[t] = np.mean(dIdt_raw[t-mov_av+1:t])
       dRdt[t] = np.mean(dRdt_raw[t-mov_av+1:t])
       dDdt[t] = np.mean(dDdt_raw[t-mov_av+1:t]) 
-      ```
+```
 Note we use a 7 day moving average to get our derivatives rather than the day difference. This is because numbers in most countries are still quite small and fluctuate like a Poisson distribution. 
 
 Assuming our parameters change over time and solving for our parameters gives us
 ```beta[t] = - dS[t]/dt / (S[t] * I[t])
 alpha[t] = dR[t]/dt / I[t]
-gamma[t] = dD[t]/dt / I[t]```
+gamma[t] = dD[t]/dt / I[t]
+```
 
 
 #### H4 Step 4: Compare parameters
