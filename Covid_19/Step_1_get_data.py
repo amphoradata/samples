@@ -79,33 +79,9 @@ def get_country_covid_data(country):
                signalsDT.append(dict(t = time_for_signal, deaths = deaths_num))
                signalsAC.append(dict(t = time_for_signal, activeCases = active_num))
            except:
-               print(t)
-
-    ## Create Amphora
-    amphora_description=sep.join(["Covid 19 data for ", country_name ,"\n Properties include: \n- Number of confirmed cases \n - Number of recovered cases \n - Number of deaths \n - Number of active cases  \n Data obtained from John Hopkins Institute"])
-    amphora_tnc="Creative_Commons_0"
-    amphora_name=sep.join(["Covid 19 data for ",country_name])
-    labels=['Covid, actuals, timeseries']
-    
-    ## Create an Amphora 
-    amphora = client.create_amphora(name = amphora_name, lat = location["lat"], lon = location["lng"], price = 0, description = amphora_description, terms_and_conditions_id = amphora_tnc, labels=labels)
-    country_id_stor.append([country,amphora.amphora_id])
-    
-    ## Create new signal
-    amphora.create_signal("confirmedCases", attributes={"units":"No"})
-    amphora.create_signal("recoveredCases", attributes={"units":"No"})
-    amphora.create_signal("deaths", attributes={"units":"No"})
-    amphora.create_signal("activeCases", attributes={"units":"No"})
-    
-    ## Update signals
-    amphora.push_signals_dict_array(signalsCC)
-    amphora.push_signals_dict_array(signalsRC)    
-    amphora.push_signals_dict_array(signalsDT)
-    amphora.push_signals_dict_array(signalsAC)    
+               print(t) 
     
 for country in country_codes:
     get_country_covid_data(country)    
         
-with open("Covid_country_key.txt", 'w') as f:
-    for item in country_id_stor:
-        f.write("%s\n" % item)
+
