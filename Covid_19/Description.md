@@ -1,10 +1,10 @@
-### H3 This sample shows you how to do real time modelling of Covid-19.
+### This sample shows you how to do real time modelling of Covid-19.
 
 In this sample we will use up-to-date reported Covid numbers from 10 countries. We will use a standard disease model, the SIR model, to classify Covid numbers and estimate model parameters.
 
 This approach is more interesting than looking at raw numbers as we can analyse and compare infectious, recovery, and death rates by country and by time. With this we can see if a countries quarantine is helping to decrease the infectious rate, if a countries death rate is higher than another, and similar questions.
 
-#### H4 Step 1: Get the raw data
+#### Step 1: Get the raw data
 We are getting our data from John Hopkins. We use a simple API query to pull data for countries that we are interested in
 ``` "https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/timeseries?iso3=",country,"&onlyCountries=true" ```
 
@@ -19,7 +19,7 @@ where
 ```data_for_day```
 is the data for that country for a given day.
 
-#### H4 Step 2: Create the individual country Amphoras and push signals
+#### Step 2: Create the individual country Amphoras and push signals
 We can now simply create each countries Amphora for their Covid numbers with
 ```
 amphora_description=sep.join(["Covid 19 data for ", country_name ,"\n Properties include: \n- Number of confirmed cases \n - Number of recovered cases \n - Number of deaths \n - Number of active cases  \n Data obtained from John Hopkins Institute"])
@@ -39,7 +39,7 @@ then push the appropriate signal with
 amphora.push_signals_dict_array(signals)
 ``` 
 
-#### H4 Step 3: Estimate SIR model parameters
+#### Step 3: Estimate SIR model parameters
 For our model, we will use a Susceptible (S)-Infected (I)-Recovered (R)-Dead (D) model. This compartmentalises all of a population into four types and defines the transition rates between each compartment. Formally the model is defined as a set of differential equations
 ```
 dS[t]/dt = - beta * S[t] * I[t]
@@ -80,4 +80,4 @@ gamma[t] = dD[t]/dt / I[t]
 ```
 
 
-#### H4 Step 4: Compare parameters
+#### Step 4: Compare parameters
