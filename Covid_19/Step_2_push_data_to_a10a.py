@@ -10,7 +10,7 @@ import csv
 import urllib.request
 import ast
 
-country_codes = ["AUS","NZL","PNG","GBR","CAN","USA","CHN","FJI","IDN","IND"]
+country_codes = ["AUS","NZL","GBR","CAN","USA","CHN","IDN","IND"]
 country_id_stor = []
 
 # Set up connection to amphoradata.com
@@ -18,18 +18,6 @@ country_id_stor = []
 credentials = Credentials(username=os.getenv('username'), password=os.getenv('password'))
 # create a client for interacting with the public Amphora Data Repository
 client = AmphoraDataRepositoryClient(credentials)
-
-date_str = []
-
-def importCsv(file):
-    cnt = 0
-    with open(file, newline='') as csvfile:
-        data = csv.reader(csvfile, delimiter=',', quotechar='|')
-        for row in data:
-            if row:
-                date_str.append(row)
-                cnt += 1
-        print(cnt)
 
 importCsv("dates_of_interest.csv")
 
