@@ -81,3 +81,28 @@ gamma[t] = dD[t]/dt / I[t]
 
 
 #### Step 4: Compare parameters
+
+We can now compare the beta parameter but you can extend it if you like.
+
+First you need to pull beta for the country that you are interested in
+```
+ts_api = a10a.TimeSeriesApi(client.apiClient)
+    time_range = a10a.DateTimeRange(_from = datetime.utcnow() + timedelta(days=-T) , to= datetime.utcnow()+ timedelta(days=-5))
+    variables = {"beta": a10a.NumericVariable( kind="numeric", value=a10a.Tsx(tsx="$event.beta"), aggregation=a10a.Tsx(tsx = "it doesn't matter"))}
+    
+    get_series_query = a10a.GetSeries([country_stor[i][0]], search_span= time_range, inline_variables= variables) # the complete query
+    time_series_data = ts_api.time_series_query_time_series( a10a.QueryRequest(get_series= get_series_query))
+    
+    data_array, unique_dt, data_name  = flatten_time_series_data(time_series_data)
+    unique_dt_list = list(unique_dt)
+    beta = data_array[0]
+```
+Then upload that countrys beta into a new Amphora. Note that you will have to change the signal name otherwise all signals will be called beta.
+```
+betaCountry = sep.join(['beta',country_stor[i][1]])
+amphora.create_signal(betaCountry, attributes={"units":"Rate"})
+for t in range(len(unique_dt_list)):
+    time_for_signal = unique_dt_list[t]
+    signals.append(dict({"t": time_for_signal, "%s"%betaCountry: beta_scaled[t]}))
+amphora.push_signals_dict_array(signals)
+```
