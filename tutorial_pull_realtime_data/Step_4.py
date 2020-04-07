@@ -7,24 +7,15 @@ Created on Mon Apr  6 17:48:07 2020
 
 # Import Amphora librarys
 from amphora.client import AmphoraDataRepositoryClient, Credentials
-import amphora_api_client as a10a
-from amphora_api_client.rest import ApiException
-from amphora_api_client.configuration import Configuration
-from amphora_api_client import DateTimeRange
 
 # Import non-Amphora librarys
-from array import array 
 import os
-import numpy as np
-import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-
 
 # Login to amphoradata.com
 credentials = Credentials(username=os.getenv('username'), password=os.getenv('password')) 
 client = AmphoraDataRepositoryClient(credentials)
-amphora_api = a10a.AmphoraeApi(client.apiClient)
 
 # Get Amphora of interest
 f=open("Amphora_id.txt", "r")
