@@ -6,7 +6,7 @@ Step 1: Get Amphora Data python SDK
 
 Step 2: Identify the Amphora you want
 
-Step 3: Import libraries and login to Amphora
+Step 3: Import modules and login to Amphora
 
 Step 4: Pull data
 
