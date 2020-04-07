@@ -1,3 +1,4 @@
+Simply install by
 ```
 pip install amphoradata
 ```
