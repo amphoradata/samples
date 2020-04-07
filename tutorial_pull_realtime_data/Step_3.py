@@ -1,7 +1,7 @@
-# Import Amphora librarys
+# Import Amphora modules
 from amphora.client import AmphoraDataRepositoryClient, Credentials
 
-# Import non-Amphora librarys
+# Import non-Amphora modules
 import os
 
 # Login to amphoradata.com
