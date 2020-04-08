@@ -2,9 +2,9 @@
 
 You can use these templates to use Amphora Data. They will give you access to the basic functions of Amphora including
 
-* Creating an Amphora
+* Create an Amphora
 
-* Creating a signal
+* Create a signal
 
 * Update a signal
 
