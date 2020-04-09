@@ -3,7 +3,7 @@ load_dotenv(verbose=True)
 
 import os
 import json
-import amphora_client
+from amphora.client import Credentials, AmphoraDataRepositoryClient
 
 from src.mapping import wz_save, wz_load
 from src.weatherzone import load_locations
@@ -13,6 +13,11 @@ from src.operations import create_or_update_amphorae, upload_signals_to_amphora
 
 wz_user = os.getenv("wz_user")
 wz_password = os.getenv('wz_password')
+# amphora credentials
+username=os.getenv('username')
+password=os.getenv('password')
+ 
+client = AmphoraDataRepositoryClient(Credentials(username, password))
 
 towns = towns()
 wz_locations = dict()
@@ -35,9 +40,9 @@ amphora_map = wz_load()
 wz_locations.update(amphora_map)
 print(wz_locations)
 
-new_store = create_or_update_amphorae(wz_locations, location_infos)
+new_store = create_or_update_amphorae(client, wz_locations, location_infos)
 wz_save(new_store)
 
 # for each WZ Location, run the ETL process
 for wz_lc, amphora_id in new_store.items():
-    upload_signals_to_amphora(wz_lc, amphora_id)
+    upload_signals_to_amphora(client, wz_lc, amphora_id)
