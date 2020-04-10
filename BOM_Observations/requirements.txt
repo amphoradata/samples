@@ -1,0 +1,5 @@
+amphoradata==0.9.2.dev1
+requests
+python-dotenv
+pandas
+numpy
