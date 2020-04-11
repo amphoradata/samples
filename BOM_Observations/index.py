@@ -1,6 +1,7 @@
 import logging
 import sys
 import os
+import random
 from datetime import datetime
 from amphora.client import AmphoraDataRepositoryClient, Credentials
 
@@ -23,6 +24,15 @@ sites = extract.load_wmo_sites()
 
 amphora_map = idcache.load()
 max_t = None
+
+# use a random amphora in the list to get the last written time.
+# this should be more resilient to failure than always using the first.
+if(len(amphora_map) > 0):
+    random_amphora_id = random.choice(list(amphora_map.values()))
+    random_amphora = client.get_amphora(random_amphora_id)
+    max_t = op.get_max_t(random_amphora)
+    logger.info(f'Max T is {max_t} from Amphora({random_amphora_id})')
+
 for site in sites:
     if site.site not in amphora_map:
         logger.warn(f'Amphora doesnt exist for site {site.site}')
@@ -36,7 +46,7 @@ for site in sites:
 
     if a is not None:
 
-        # get the max t once
+        # get the max t if it doesn't exist.
         if max_t is None:
             max_t = op.get_max_t(a)
 
