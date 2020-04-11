@@ -1,0 +1,41 @@
+trigger:
+  branches:
+    exclude:
+    - "*"
+    - refs/tags/*
+    - refs/heads/*
+
+schedules:
+- cron: "45 */5 * * *"
+  displayName: At minute 45 past every 5th hour.
+  branches:
+    include:
+    - master
+  always: true # run even if there's no source changes
+
+resources:
+- repo: self
+
+variables:
+  - group: AmphoraData
+
+stages:
+- stage: Main
+  displayName: Build image
+  jobs:  
+  - job: LoadData
+    displayName: Load Data from BOM into Amphorae
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: docker build -t $TAG $(Build.SourcesDirectory)/BOM_Observations
+      displayName: Build an image
+      env:
+        TAG: '$(Build.BuildId)'
+    - script: docker run -e host=$host -e username=$username -e password=$password $TAG
+      displayName: Run ETL
+      env:
+        host: $(host)
+        username: $(username)
+        password: $(password)
+        TAG: '$(Build.BuildId)'
