@@ -3,8 +3,10 @@ logger = logging.getLogger("operations.py")
 from datetime import datetime, timedelta
 from amphora.client import AmphoraDataRepositoryClient, Amphora
 from amphora_api_client import DateTimeRange
-from extract import BOMSite
+import pytz
+
 import signals
+from extract import BOMSite
 from bom_types import BOMData
 
 TERMS_ID = "Creative_Commons_3_AU"
@@ -49,7 +51,7 @@ def get_max_t(amphora: Amphora):
         max_t = _from
 
     logger.info(f'Max T is {max_t} UTC')
-    return max_t
+    return max_t.replace(tzinfo= pytz.UTC)
 
 def filter_by_last_write(data: BOMData, max_t: datetime) -> BOMData:
     filtered = []
