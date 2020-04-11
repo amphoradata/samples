@@ -32,6 +32,7 @@ def construct_url(state:str, wmo: str):
 def get_data(site: BOMSite) -> bom_types.BOMData:
     url = construct_url(site.state, site.wmo)
     res = requests.get(url)
+    logger.info(f'{url} returned {res.status_code}')
     try:    
         data = res.json()
         return bom_types.bom_data_from_dict(data)

@@ -1,4 +1,5 @@
 import datetime
+import pytz
 from bom_types import BOMData
 
 air_temp = "airTemp"
@@ -47,7 +48,7 @@ def required_signals()-> [SignalDefinition]:
     ]
 
 def get_timestamp(aifstime_utc: str):
-    return datetime.datetime.strptime(aifstime_utc, "%Y%m%d%H%M%S")
+    return datetime.datetime.strptime(aifstime_utc, "%Y%m%d%H%M%S").replace(tzinfo=pytz.UTC)
 
 
 def to_float(x):

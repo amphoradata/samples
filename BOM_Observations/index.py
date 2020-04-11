@@ -21,28 +21,8 @@ client = AmphoraDataRepositoryClient(credentials)
 
 sites = extract.load_wmo_sites()
 
-logger.info(f'There are {len(sites)} WMO sites')
-
-all_data = {}
-all_sites = {}
-
-sample = bom.get_data(sites[0])
-# for site in sites:
-#     data = bom.get_data(site)
-#     if(data is not None):
-#         all_data[site.site] = data
-#         all_sites[site.site] = site
-
-# logger.info(f'Got data for {len(all_data)} sites')
-# logger.info(f'Lost {len(sites) - len(all_data)} sites')
-
-# now to create all the amphora we need, if they don't exist
-
-
-
-
 amphora_map = idcache.load()
-
+max_t = None
 for site in sites:
     if site.site not in amphora_map:
         logger.warn(f'Amphora doesnt exist for site {site.site}')
@@ -55,12 +35,21 @@ for site in sites:
         logger.info(f'Amphora({a.amphora_id}) exists for site {site.site}')
 
     if a is not None:
+
+        # get the max t once
+        if max_t is None:
+            max_t = op.get_max_t(a)
+
         op.ensure_signals(a)
         data = bom.get_data(site)
         if data is not None:
-            signal_data = signals.SignalData(data)
-            a.push_signals_dict_array(signal_data.data)
-            logger.info(f'Pushed {len(signal_data.data)} datums to Amphora({a.amphora_id})')
+            op.filter_by_last_write(data, max_t)
+            if len(data.observations.data) > 0:
+                signal_data = signals.SignalData(data)
+                a.push_signals_dict_array(signal_data.data)
+                logger.info(f'Pushed {len(signal_data.data)} datums to Amphora({a.amphora_id})')
+            else:
+                logger.info(f'Skipping 0 length data')
         else:
             logger.warn(f'No data for Amphora({a.amphora_id}) site {site.site}')
     else: 
@@ -68,6 +57,5 @@ for site in sites:
         raise ValueError(f'Lost Amphora for site {site.site}')
 
     idcache.save(amphora_map) # save on each round, so you don't lose it all
-    break
 
 idcache.save(amphora_map)
