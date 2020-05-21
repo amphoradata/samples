@@ -6,8 +6,6 @@ Created on Mon May 18 14:47:16 2020
 """
 # Import amphora modules
 from amphora.client import AmphoraDataRepositoryClient, Credentials
-import amphora_covid
-
 
 # Import non-amphora modules
 import time
@@ -18,8 +16,8 @@ from datetime import datetime, timedelta
 ## Set up log metrics
 start = time.time()
 sep='_'
-experimentId = 4
-mlflow.set_tracking_uri("http://aci-mlflow-dns.australiaeast.azurecontainer.io:5000/")
+experimentId = 0
+mlflow.set_tracking_uri("your_mlflow_address")
 runName = sep.join(['Job_at',str(datetime.utcnow())])
 #mlflow.start_run(experiment_id=experimentId, run_name =runName)
 mlflow.log_metric("time_to_complete", 0)
