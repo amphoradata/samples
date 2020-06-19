@@ -6,7 +6,7 @@ trigger:
     - refs/heads/*
 
 schedules:
-- cron: "0 */6 * * *"
+- cron: '0 */6 * * *'
   displayName: Every 6 hours
   branches:
     include:

@@ -6,8 +6,8 @@ trigger:
     - refs/heads/*
 
 schedules:
-- cron: "45 */5 * * *"
-  displayName: At minute 45 past every 5th hour.
+- cron: '30 */7 * * *'
+  displayName: 30 minutes past every 7th hour.
   branches:
     include:
     - master
