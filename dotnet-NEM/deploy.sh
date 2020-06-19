@@ -5,7 +5,7 @@ rg=amphora-nem-${RANDOM:0:2}
 location=australiaeast
 func=nemfunc${RANDOM:0:2}
 
-host=https://beta.amphoradata.com
+host=https://app.amphoradata.com
 user=CHANGE_ME
 pass=CHANGE_ME
 
