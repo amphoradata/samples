@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +9,7 @@ namespace dotnet_NEM
     public static class ETL_NEM
     {
        [FunctionName("NEM_timer")]
-        public static async Task Run([TimerTrigger("0 0 */6 * * *")]TimerInfo myTimer,
+        public static async Task Run([TimerTrigger("0 15,45 * * * *")]TimerInfo myTimer,
                                ILogger log,
                                ExecutionContext context)
         {
