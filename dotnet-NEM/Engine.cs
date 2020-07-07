@@ -41,14 +41,15 @@ namespace dotnet_NEM
             var httpClient = new HttpClient();
             var authClient = new AuthenticationClient(httpClient);
 
-            var token = await authClient.RequestTokenAsync("0", new TokenRequest { Username = settings.UserName, Password = settings.Password });
+            var token = await authClient.RequestTokenAsync("0", new LoginRequest { Username = settings.UserName, Password = settings.Password });
 
             token = token.Trim('\"'); // there may be extra quotes on that string
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             try
             {
-                var amphoraeClient = new AmphoraeClient(httpClient);
+                var amphoraeClient = new AmphoraeSignalsClient(httpClient);
+                amphoraeClient.BaseUrl = settings.Host;
                 var map = Mapping.Map; // load the Map
                 // run in parallel for performance
                 var nswTask = Task.Run(() => UploadPointsAsync(Region.Nsw1, data.Data.Where(d => d.Region == Region.Nsw1), amphoraeClient, map));
@@ -68,7 +69,7 @@ namespace dotnet_NEM
         }
 
 
-        private async Task UploadPointsAsync(Region r, IEnumerable<Point> points, AmphoraeClient amphoraeClient, System.Collections.Generic.Dictionary<Region, string> map)
+        private async Task UploadPointsAsync(Region r, IEnumerable<Point> points, AmphoraeSignalsClient signalsClient, System.Collections.Generic.Dictionary<Region, string> map)
         {
             log.LogTrace($"First Point: {JsonConvert.SerializeObject(points.FirstOrDefault())}");
             var batch = new List<Dictionary<string, object>>();
@@ -79,7 +80,7 @@ namespace dotnet_NEM
             }
             var id = map[r];
             log.LogInformation($"Using Amphora {id} for region {Enum.GetName(typeof(Region), r)}");
-            await amphoraeClient.UploadSignalBatchAsync(id, "0", batch);
+            await signalsClient.UploadSignalBatchAsync(id, "0", batch);
         }
     }
 }
