@@ -8,7 +8,7 @@ namespace dotnet_NEM
 {
     public static class ETL_NEM
     {
-    //    [FunctionName("NEM_timer")]
+       [FunctionName("NEM_timer")]
         public static async Task Run([TimerTrigger("0 15,45 * * * *")]TimerInfo myTimer,
                                ILogger log,
                                ExecutionContext context)
