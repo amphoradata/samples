@@ -31,9 +31,9 @@ namespace dotnet_NEM
             config.Bind("Amphora", engineConfig);
 
             var engine = new Engine(engineConfig, log);
-            await engine.Run();
+            var summary = await engine.Run();
 
-            return new OkResult();
+            return new JsonResult(summary);
         }
     }
 }
