@@ -16,7 +16,7 @@ az storage account create -n $storage -l $location -g $rg --sku Standard_LRS
 
 az functionapp create -n $func --storage-account $storage --os-type Linux -c $location --runtime dotnet -g $rg
 
-az functionapp config appsettings set -n $func -g $rg --settings "Amphora__Host=$host" "Amphora__UserName=$user" "Amphora__Password=$pass"
+az functionapp config appsettings set -n $func -g $rg --settings "Amphora__BaseUrl=$host" "Amphora__UserName=$user" "Amphora__Password=$pass"
 
 echo "Waiting for function app..."
 sleep 20

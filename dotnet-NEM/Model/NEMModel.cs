@@ -21,10 +21,16 @@ namespace dotnet_NEM
         }
         public DateTime Settlementdate { get; set; }
         public Region Regionid { get; set; }
+        public double DistanceFromHorizon(Horizon horizon)
+        {
+            // positive if in the future
+            return (SettlementDateUtc() - DateTimeOffset.UtcNow.AddMinutes(horizon.ValueInMinutes ?? 0)).TotalSeconds;
+        }
 
         public Region Region { get; set; }
         public double Rrp { get; set; }
         public double Totaldemand { get; set; }
+        
         public Periodtype Periodtype { get; set; }
         public double Netinterchange { get; set; }
         public double Scheduledgeneration { get; set; }
@@ -33,5 +39,6 @@ namespace dotnet_NEM
 
     public enum Periodtype { Actual, Forecast };
 
+
     public enum Region { Nsw1, Qld1, Sa1, Tas1, Vic1 };
-}   
+}
