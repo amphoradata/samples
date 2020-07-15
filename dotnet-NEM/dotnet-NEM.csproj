@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AmphoraData.Client" Version="0.10.9" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="humanizer.core" Version="2.8.26" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.29" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
