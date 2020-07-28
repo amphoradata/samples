@@ -47,3 +47,11 @@ PICTURE ON HOW THIS WORKS
 
 ## Sounds good, what do I need to start coding?
 
+Its easy to get started with MDPs. Simply
+1. Choose your interface standard
+2. Design your solution
+3. Make the components
+4. Plug them all together
+
+
+
