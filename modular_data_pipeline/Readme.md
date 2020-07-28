@@ -41,11 +41,11 @@ Combined with an open-source collaboration platform, e.g. GitHub, MDPs enable te
 
 ## How do they work with the Amphora Data platform?
 
-Modular Data Pipelines naturally work very well on Amphora as we use data containerisation to store data. Each data pipeline can start and/or end in an Amphora.
+Modular Data Pipelines naturally work very well with Amphora as we use data containerisation to store data. Each data pipeline can start and/or end in an Amphora. MDB components can refer to any Amphora with the unique `amphora_id`. We find it best to call the `amphora_id` in the `run.py` and pass an Amphora object to each component.
 
-PICTURE
+We typically use a three stage MDP for our data pipelines. The first stage is to transfer of raw data from a source Amphora to a workspace Amphora. Second stage is to do any enrichment, cleaning, manipulation, analytics, that needs to happen. The last stage is to present the data in the format our customers want. This is analogous to source system, data lake, and interaction layer in enterprise software.
 
-We typically use a three stage MDP. The first stage is transfer of raw data from a source Amphora to a workspace Amphora. Second stage is to do any enrichment, cleaning, manipulation, analytics, that needs to happen. The last stage is to present the data in the format our customers want. This is analogous to source system, data lake, and interaction layer in enterprise software.
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/Amphora_MDB_example.JPG" width="800" title = "Amphora MDB example">
 
 ## Sounds good, what do I need to start coding?
 
@@ -62,8 +62,6 @@ You need to choose your standard data type, filename format, and data storage lo
 In our data science team, we typically use `.csv`s for our files, `propertyId_YYMMDD_DATACONTENT` for filenames, and, naturally, Amphoras to store data. That said, we process all types of files and filenames but we try to convert them to our standard for as many components as possible.
 
 > LEGO step: Set the standard block hight and circle size
-
-
 <img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_1.png" width="300" title = "Set the standard block hight and circle size">
 
 ### 2. Design your MDP
@@ -78,7 +76,6 @@ For example, we use components such as
 * `publish_overall_image`: This takes a csv and creates a standard png image
 
 > LEGO step: Design your LEGO model and write instructions
-
 <img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_2.JPG" width="300" title = "Design your LEGO model and write instructions">
 
 ### 3. Make the components
@@ -86,7 +83,6 @@ For example, we use components such as
 Now you need to start writing the code in each component. This is obviously dependent on your own needs but try to use 5 lines or less of actual data manipulation, cleaning, engineering, or analytics to keep your component as small as possible.
 
 > LEGO step: Make the small parts of a LEGO model
-
 <img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_3.jpg" width="300" title = "Make the small parts of a LEGO model">
 
 ### 4. Plug them all together
@@ -94,5 +90,8 @@ Now you need to start writing the code in each component. This is obviously depe
 Now you need to add all your components together into a single pipeline run file. This is pretty standard and can be set to do `batch`, `on-demand`, `scheduled` or whatever you need to do.
 
 > LEGO step: Put all bits together to have a complete model
-
 <img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_4.jpg" width="300" title = "Put all bits together to have a complete model">
+
+## Questions?
+
+Email us at contact@amphoradata.com and we will reply and post the most frequently asked questions here.
