@@ -43,15 +43,28 @@ Combined with an open-source collaboration platform, e.g. GitHub, MDPs enable te
 
 Modular Data Pipelines naturally work very well on Amphora as we use data containerisation to store data. Each data pipeline can start and/or end in an Amphora.
 
-PICTURE ON HOW THIS WORKS
+PICTURE
+
+We typically use a three stage MDP. The first stage is transfer of raw data from a source Amphora to a workspace Amphora. Second stage is to do any enrichment, cleaning, manipulation, analytics, that needs to happen. The last stage is to present the data in the format our customers want. This is analogous to source system, data lake, and interaction layer in enterprise software.
 
 ## Sounds good, what do I need to start coding?
 
 Its easy to get started with MDPs. Simply
 1. Choose your interface standard
-2. Design your solution
+2. Design your MDP
 3. Make the components
 4. Plug them all together
 
+### 1. Choose your interface standard
+
+You need to choose your standard data type, filename format, and data storage locations. These don't need to be set in stone but most components should pipe these.
+
+In our data science team, we typically use `.csv`s for our files, `propertyId_YYMMDD_DATACONTENT` for filenames, and, naturally, Amphoras to store data. That said, we process all types of files and filenames but we try to convert them to our standard for as many components as possible.
+
+### 2. Design your MDP
+
+### 3. Make the components
+
+### 4. Plug them all together
 
 
