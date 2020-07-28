@@ -61,10 +61,24 @@ You need to choose your standard data type, filename format, and data storage lo
 
 In our data science team, we typically use `.csv`s for our files, `propertyId_YYMMDD_DATACONTENT` for filenames, and, naturally, Amphoras to store data. That said, we process all types of files and filenames but we try to convert them to our standard for as many components as possible.
 
+> LEGO analogy: Set the standard block hight and circle size
+![Set the standard block hight and circle size](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_1.png "Set the standard block hight and circle size")
+
 ### 2. Design your MDP
 
+You now need to design your MDP. 
+
+> LEGO analogy: Design your LEGO model and write instructions
+![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_2.JPG "Design your LEGO model and write instructions")
+
 ### 3. Make the components
+
+
+> LEGO analogy: Make the small parts of a LEGO model
+![Make the small parts of a LEGO model](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_3.JPG "Make the small parts of a LEGO model")
 
 ### 4. Plug them all together
 
 
+> LEGO analogy: Put all bits together to have a complete model
+![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_4.JPG "Design your LEGO model and write instructions")
