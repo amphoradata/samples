@@ -61,28 +61,37 @@ You need to choose your standard data type, filename format, and data storage lo
 
 In our data science team, we typically use `.csv`s for our files, `propertyId_YYMMDD_DATACONTENT` for filenames, and, naturally, Amphoras to store data. That said, we process all types of files and filenames but we try to convert them to our standard for as many components as possible.
 
-> LEGO analogy: Set the standard block hight and circle size
+> LEGO step: Set the standard block hight and circle size
 
 ![Set the standard block hight and circle size](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_1.png "Set the standard block hight and circle size")
 
 ### 2. Design your MDP
 
-You now need to design your MDP. 
+You now need to design your MDP. Break up your data pipeline into the smallest components possible. Aim to be able to reuse over 80% of your components in other data pipelines.
 
-> LEGO analogy: Design your LEGO model and write instructions
+Our data science team typically uses a three stage approach, raw-to-working, working, working-to-finished-product. We use three different Amphoras for each of these. We use different Amphoras as we can set different restrictions for each Amphora, reuse raw data in multiple analytics products, and use the same working MDP components for different customers and datasets. 
+
+For example, we use components such as 
+* `tiff_to_ndvi`: This takes a tiff image and creates and ndvi csv
+* `identify_vines`: This identifies all the pixels which contain grape vines in a satellite image
+* `publish_overall_image`: This takes a csv and creates a standard png image
+
+> LEGO step: Design your LEGO model and write instructions
 
 ![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_2.JPG "Design your LEGO model and write instructions")
 
 ### 3. Make the components
 
+Now you need to start writing the code in each component. This is obviously dependent on your own needs but try to use 5 lines or less of actual data manipulation, cleaning, engineering, or analytics to keep your component as small as possible.
 
-> LEGO analogy: Make the small parts of a LEGO model
+> LEGO step: Make the small parts of a LEGO model
 
-![Make the small parts of a LEGO model](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_3.JPG "Make the small parts of a LEGO model")
+![Make the small parts of a LEGO model](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_3.jpg "Make the small parts of a LEGO model")
 
 ### 4. Plug them all together
 
+Now you need to add all your components together into a single pipeline run file. This is pretty standard and can be set to do `batch`, `on-demand`, `scheduled` or whatever you need to do.
 
-> LEGO analogy: Put all bits together to have a complete model
+> LEGO step: Put all bits together to have a complete model
 
-![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_4.JPG "Design your LEGO model and write instructions")
+![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_4.jpg "Design your LEGO model and write instructions")
