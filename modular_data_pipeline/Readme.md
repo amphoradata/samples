@@ -8,7 +8,7 @@ This readme is a companion to a video and all code is in this GitHub repo.
 
 A modular data pipeline (MDP) is a process to move or transform data that is broken down into the smallest steps possible. Each of these steps is a very small data pipeline component that, when added together, form a larger data pipeline. Essentially it is the LEGO of data pipelines.
 
-<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/Monolithic_vs_modular.png" width="500" title = "Monolithic vs modular pipeline">
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/Monolithic_vs_modular.png" width="800" title = "Monolithic vs modular pipeline">
 
 In contrast, traditional monolithic data pipelines are built as one long body of work. They are robust and efficient at their job. But everything is custom made and designed and hard to change or reuse.
 
@@ -64,7 +64,7 @@ In our data science team, we typically use `.csv`s for our files, `propertyId_YY
 > LEGO step: Set the standard block hight and circle size
 
 
-<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_1.png" width="200" title = "Set the standard block hight and circle size">
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_1.png" width="300" title = "Set the standard block hight and circle size">
 
 ### 2. Design your MDP
 
@@ -79,7 +79,7 @@ For example, we use components such as
 
 > LEGO step: Design your LEGO model and write instructions
 
-![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_2.JPG "Design your LEGO model and write instructions")
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_2.JPG" width="300" title = "Design your LEGO model and write instructions">
 
 ### 3. Make the components
 
@@ -87,7 +87,7 @@ Now you need to start writing the code in each component. This is obviously depe
 
 > LEGO step: Make the small parts of a LEGO model
 
-![Make the small parts of a LEGO model](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_3.jpg "Make the small parts of a LEGO model")
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_3.jpg" width="300" title = "Make the small parts of a LEGO model">
 
 ### 4. Plug them all together
 
@@ -95,4 +95,4 @@ Now you need to add all your components together into a single pipeline run file
 
 > LEGO step: Put all bits together to have a complete model
 
-![Design your LEGO model and write instructions](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_4.jpg "Design your LEGO model and write instructions")
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/lego_pic_4.jpg" width="300" title = "Put all bits together to have a complete model">
