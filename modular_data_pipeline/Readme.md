@@ -8,7 +8,7 @@ This readme is a companion to a video and all code is in this GitHub repo.
 
 A modular data pipeline (MDP) is a process to move or transform data that is broken down into the smallest steps possible. Each of these steps is a very small data pipeline component that, when added together, form a larger data pipeline. Essentially it is the LEGO of data pipelines.
 
-![Monolithic_vs_modular_pipeline](https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/Monolithic_vs_modular.png "Monolithic vs modular pipeline")
+<img src="https://github.com/amphoradata/samples/blob/master/modular_data_pipeline/Monolithic_vs_modular.png" width="20" title = "Monolithic vs modular pipeline">
 
 In contrast, traditional monolithic data pipelines are built as one long body of work. They are robust and efficient at their job. But everything is custom made and designed and hard to change or reuse.
 
