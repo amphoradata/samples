@@ -2,7 +2,7 @@
 
 In this tutorial, we're going to build a data driven dashboard, fron scratch, using [Amphora Glaze](https://www.amphoradata.com/glaze/).
 
-> This tutorial requires a subscription to Amphora `Glaze`. 
+> This tutorial requires a subscription to Amphora `Glaze`.
 
 > If you aren't registed, head to [the app](https://app.amphoradata.com/) to register.
 
@@ -50,7 +50,6 @@ You are about to register an app named sample_glaze_dashboard. Press any key to 
 Your Application ID is f48fed4f-569e-4524-8432-b5ae4444eca4   # <-- copy this id
 ```
 
-
 ## Creating a react app
 
 For this dashboard, we're going to use [react-amphora](https://github.com/xtellurian/react-amphora), a frontend react library that removes a lot of boilerplate code.
@@ -77,7 +76,7 @@ yarn add react-amphora
 
 #### Create a user manager
 
-Amphora used OIDC and OAuth to authenticate users in client applications. We need to setup our user manager (from [oidc-client-js](https://github.com/IdentityModel/oidc-client-js)). Once done, it allows *any* Amphora user to sign into our app!
+Amphora used OIDC and OAuth to authenticate users in client applications. We need to setup our user manager (from [oidc-client-js](https://github.com/IdentityModel/oidc-client-js)). Once done, it allows _any_ Amphora user to sign into our app!
 
 [amphora/userManager.ts](app/src/amphora/userManager.ts)
 
@@ -104,7 +103,6 @@ import { Configuration } from "amphoradata";
 export const initalConfiguration = new Configuration();
 ```
 
-
 ### Setup the react-amphora provider
 
 To use `react-amphora`, you wrap a react component in an `<AmphoraProvider>` component, like so:
@@ -128,3 +126,91 @@ ReactDOM.render(
   document.getElementById("root")
 );
 ```
+
+Now, if you run the app (with `yarn start`), and navigate in your browser to [localhost:3000](http://localhost:3000), you'll should see the normal `create-react-app` bootstrap screen.
+
+Now, we're going to add the sign in callback page, a sign in button, and a user information page.
+
+### Add react-router and a authentication callback route
+
+#### Install react-router
+
+```
+yarn add react-router-dom
+yarn add -D @types/react-router-dom
+```
+
+#### Setup the router and auth callback
+
+Wrap your application component in the BrowserRouter component, then 
+
+[App.tsx](app/src/App.tsx)
+
+```tsx
+import {
+  BrowserRouter as Router,
+  RouteComponentProps,
+  withRouter,
+} from "react-router-dom";
+import { userManager } from "./amphora/userManager";
+import { CallbackPage } from "react-amphora";
+
+const AppWithCallbackPage: React.FunctionComponent<RouteComponentProps> = (
+  props
+) => {
+  if (props.location.hash.substring(0, 10) === "#/callback") {
+    const signInParams = props.location.hash.substring(10);
+    return (
+      <CallbackPage
+        onSignIn={() => props.history.push("/")}
+        {...props}
+        userManager={userManager}
+        signInParams={`${signInParams}`}
+      />
+    );
+  }
+  return <App />;
+};
+
+var ConnectedApp = withRouter(AppWithCallbackPage);
+
+const RoutedApp: React.FunctionComponent = () => {
+  return (
+    <Router>
+      <ConnectedApp />
+    </Router>
+  );
+};
+
+export default RoutedApp;
+```
+
+#### Add a Sign In button component
+
+The sign in button is a simple component that prompts the user to sign-in with Amphora.
+
+```tsx
+import { SignInButton } from "react-amphora";
+...
+
+<SignInButton alwaysOn={true} />
+```
+
+The Sign In Button, by default, will not render in the DOM if the user is already authenticated. You can override this behaviour using the `alwaysOn` prop.
+
+#### Add a user information panel component
+
+The user information component displays some information about the user, derived from the OIDC identity.
+
+```tsx
+import { UserInformationComponent } from "react-amphora";
+
+<UserInformationComponent />
+```
+
+### You did it!
+
+Your app is now connected to Amphora! Once you login, you app should look like this:
+
+![](assets/app_1.gif)
+
