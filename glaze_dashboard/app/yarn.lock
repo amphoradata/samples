@@ -7017,6 +7017,11 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
+moment@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -8740,10 +8745,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-amphora@^1.5.1-1:
-  version "1.5.1-1"
-  resolved "https://registry.yarnpkg.com/react-amphora/-/react-amphora-1.5.1-1.tgz#b1d80715cc39049699554a45df51cf1bb5df167d"
-  integrity sha512-L87ixOLBbpC5GLq1umE5QjGYE5H1ZTcTlzJSZae3qEIZFexqBCY3iM7GRhcdAbogldGdw1gnxuXsxAY+WZonWA==
+react-amphora@^1.5.1-2:
+  version "1.5.1-2"
+  resolved "https://registry.yarnpkg.com/react-amphora/-/react-amphora-1.5.1-2.tgz#4a6171096de99a0e406bd6226bbd64dc21c44890"
+  integrity sha512-OLHpI4CTHPcW6Eqt3r69cgLvQlPm8bXuhtRa6Bmia6Ywlu0K0rsZ2232y9Nv28xT26w3uyg2hIt98LZrloo8bA==
   dependencies:
     amphoradata "^0.10.15"
     oidc-client "^1.10.1"
