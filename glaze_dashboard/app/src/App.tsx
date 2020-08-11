@@ -8,7 +8,6 @@ import { userManager } from "./amphora/userManager";
 import {
   CallbackPage,
   SignInButton,
-  SignOutButton,
   UserInformationComponent,
 } from "react-amphora";
 import "./App.css";
