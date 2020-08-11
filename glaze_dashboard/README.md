@@ -214,15 +214,15 @@ import { UserInformationComponent } from "react-amphora";
 
 ### You did it!
 
-Your app is now connected to Amphora! Once you login, you app should look like this:
+Your app is now connected to Amphora!
 
 ![Animated GIF of signing in](assets/app_1.gif)
 
 ## Deploying your app
 
-There are many ways to deploy a React app, and many of them are listed on the [create react app docs](https://create-react-app.dev/docs/deployment/).
+There are many ways to deploy a React app, and some of them are listed in the [create react app docs](https://create-react-app.dev/docs/deployment/).
 
-For this example, were going to deploy using Netlify.
+For this example, were going to deploy using [Netlify](https://www.netlify.com/).
 
 ### Deploy on Netlify
 
