@@ -218,3 +218,30 @@ Your app is now connected to Amphora! Once you login, you app should look like t
 
 ![](assets/app_1.gif)
 
+
+## Deploying your app
+
+There are many ways to deploy a React app, and many of them are listed on the [create react app docs](https://create-react-app.dev/docs/deployment/).
+
+For this example, were going to deploy using Netlify.
+
+### Deploy on Netlify
+
+Follow [these instructions](https://create-react-app.dev/docs/deployment/#netlify) to deploy your app to Netlify.
+
+
+### Register the new location on Amphora Data
+
+Amphora needs to know where your app is deployed. To add the new location, use the [add-app-location.py](python/scripts/add-app-location.py) script.
+
+```sh
+> python add-app-location.py
+Enter your Amphora username:rian@amphoradata.com
+Password:
+https://app.amphoradata.com
+Enter your Amphora application Id:f48fed4f-569e-4524-8432-b5ae4444eca4
+Enter your deployed host/ CORS origin:https://hopeful-swirles-ad2660.netlify.app
+Enter the redirect path (default: /#/callback):
+Found existing application: sample_glaze_dashboard
+updated application
+```
