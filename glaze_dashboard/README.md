@@ -1,5 +1,9 @@
 # Glaze Tutorial: Sample Dashboard
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/acc09f47-14b1-4080-87cf-3740ecdbf9f6/deploy-status)](https://app.netlify.com/sites/hopeful-swirles-ad2660/deploys)
+
+[View Dashboard](https://hopeful-swirles-ad2660.netlify.app/)
+
 In this tutorial, we're going to build a data driven dashboard, fron scratch, using [Amphora Glaze](https://www.amphoradata.com/glaze/).
 
 > This tutorial requires a subscription to Amphora `Glaze`.
@@ -85,7 +89,7 @@ import { createUserManager } from "react-amphora";
 
 let redirectUri = `${window.location.href}/#/callback`; // this matched the callback path we defined above.
 const userManager = createUserManager({
-  clientId: "f48fed4f-569e-4524-8432-b5ae4444eca4", // replace this with your ID
+  clientId: "f48fed4f-569e-4524-8432-b5ae4444eca4", // replace this with your application ID
   redirectUri,
 });
 
