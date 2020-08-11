@@ -54,3 +54,22 @@ Your Application ID is f48fed4f-569e-4524-8432-b5ae4444eca4   # <-- copy this id
 ## Creating a react app
 
 For this dashboard, we're going to use [react-amphora](https://github.com/xtellurian/react-amphora), a frontend react library that removes a lot of boilerplate code.
+
+> You can see the final version of the app in `/app`
+
+### Create an app with create-react-app
+
+We're going to make a new typescript-based react app.
+
+```sh
+cd samples/glaze_dashboard
+yarn create react-app app --template typescript
+```
+
+### Install react-amphora
+
+`react-amphora` is an open source front-end react component library for building Amphora data driven apps. Install it like so:
+
+```sh
+yarn add react-amphora
+```
