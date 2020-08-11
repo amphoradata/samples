@@ -4,11 +4,11 @@
 
 [View Dashboard](https://hopeful-swirles-ad2660.netlify.app/)
 
-In this tutorial, we're going to build a data driven dashboard, fron scratch, using [Amphora Glaze](https://www.amphoradata.com/glaze/).
+In this tutorial, we're going to build a data driven dashboard, from scratch, using [Amphora Glaze](https://www.amphoradata.com/glaze/).
 
 > This tutorial requires a subscription to Amphora `Glaze`.
 
-> If you aren't registed, head to [the app](https://app.amphoradata.com/) to register.
+> If you aren't registered, head to [the app](https://app.amphoradata.com/).
 
 ## Clone this Repository
 
@@ -33,7 +33,7 @@ In a terminal:
 
 ```sh
 cd python
-pip install -r requirements.txt
+pip install amphoradata # or use pip install -r requirements.txt
 ```
 
 #### Run the create-application.py script
@@ -58,16 +58,17 @@ Your Application ID is f48fed4f-569e-4524-8432-b5ae4444eca4   # <-- copy this id
 
 For this dashboard, we're going to use [react-amphora](https://github.com/xtellurian/react-amphora), a frontend react library that removes a lot of boilerplate code.
 
-> You can see the final version of the app in `/app`
+> You can see the final version of the app under the `/app` directory.
 
 ### Create an app with create-react-app
 
 We're going to make a new typescript-based react app.
 
 ```sh
-cd samples/glaze_dashboard
 yarn create react-app app --template typescript
 ```
+
+Running the above should create a new (mostly empty) react app in the `/app` directory. I've already done this here, so if you're trying this from scratch, you should start in an empty directory.
 
 ### Install react-amphora
 
@@ -146,7 +147,7 @@ yarn add -D @types/react-router-dom
 
 #### Setup the router and auth callback
 
-Wrap your application component in the BrowserRouter component, then
+Wrap your application component in the BrowserRouter component, then handle a callback to your callback path (in this case `#/callback`), and pass the cleaned up parameters into the <CallbackPage />. This component handles the last part of the authentication for you.
 
 [App.tsx](app/src/App.tsx)
 
@@ -234,11 +235,12 @@ Amphora needs to know where your app is deployed. To add the new location, use t
 
 ```sh
 > python add-app-location.py
+
 Enter your Amphora username:rian@amphoradata.com
 Password:
 https://app.amphoradata.com
-Enter your Amphora application Id:f48fed4f-569e-4524-8432-b5ae4444eca4
-Enter your deployed host/ CORS origin:https://hopeful-swirles-ad2660.netlify.app
+Enter your Amphora application Id:f48fed4f-569e-4524-8432-b5ae4444eca4 # <-- use your application id.
+Enter your deployed host/ CORS origin:https://hopeful-swirles-ad2660.netlify.app # <-- use the host from your deployed app.
 Enter the redirect path (default: /#/callback):
 Found existing application: sample_glaze_dashboard
 updated application
@@ -252,7 +254,7 @@ We're going to create a simple dashboard for viewing the weather, river water fe
 
 ### Create a dashboard page.
 
-To create a dashboard, we're going to use the <ChartComponent /> from `react-amphora`.
+To create a dashboard, we're going to use the `<ChartComponent />` from `react-amphora`.
 
 The chart component extends Microsoft's [TSI client library](https://github.com/microsoft/tsiclient), and charts the data from Amphora Signals.
 
@@ -283,7 +285,7 @@ const range: ChartRange = {
 
 We used a [ProtectedRoute](app/src/ProtectedRoute.tsx) to ensure you can only see the dashboard when signed in. However, the SignalsChart component wouldn't render properly if the user was not signed in.
 
-To put the dashboard under the path `/dashboard`, put a <ProtectedRoute /> inside the <Router />
+To put the dashboard under the path `/dashboard`, put a `<ProtectedRoute />` inside the `<Router />`
 
 [App.tsx](app/src/App.tsx)
 
