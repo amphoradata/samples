@@ -4,3 +4,5 @@ python-WeatherZone/.env
 python-WeatherZone/.vscode/settings.json
 .DS_Store
 BOM_Observations/.vscode/settings.json
+.vscode/settings.json
+glaze_dashboard/.vscode/settings.json
