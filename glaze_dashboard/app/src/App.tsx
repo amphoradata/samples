@@ -5,7 +5,6 @@ import {
   Route,
   Switch,
   withRouter,
-  Link,
 } from "react-router-dom";
 import { userManager } from "./amphora/userManager";
 import { CallbackPage } from "react-amphora";
