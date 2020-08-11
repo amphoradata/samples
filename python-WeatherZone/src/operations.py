@@ -42,7 +42,7 @@ def create_or_update_amphorae(client: AmphoraDataRepositoryClient, amphora_map, 
                 new_map[key] = amphora.id
             else:
                 amphora = client.get_amphora(id)
-                time.sleep(50) # wait a bit to prevent hitting the rate limit
+                time.sleep(0.2) # wait a bit to prevent hitting the rate limit
                 print(f'Using existing amphora: {amphora.metadata.name}')
                 new_map[key] = id
 
