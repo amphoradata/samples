@@ -87,7 +87,7 @@ Amphora used OIDC and OAuth to authenticate users in client applications. We nee
 ```ts
 import { createUserManager } from "react-amphora";
 
-let redirectUri = `${window.location.href}/#/callback`; // this matched the callback path we defined above.
+let redirectUri = `${window.location.href}#/callback`; // this matched the callback path we defined above.
 const userManager = createUserManager({
   clientId: "f48fed4f-569e-4524-8432-b5ae4444eca4", // replace this with your application ID
   redirectUri,
@@ -146,7 +146,7 @@ yarn add -D @types/react-router-dom
 
 #### Setup the router and auth callback
 
-Wrap your application component in the BrowserRouter component, then 
+Wrap your application component in the BrowserRouter component, then
 
 [App.tsx](app/src/App.tsx)
 
@@ -209,15 +209,14 @@ The user information component displays some information about the user, derived
 ```tsx
 import { UserInformationComponent } from "react-amphora";
 
-<UserInformationComponent />
+<UserInformationComponent />;
 ```
 
 ### You did it!
 
 Your app is now connected to Amphora! Once you login, you app should look like this:
 
-![](assets/app_1.gif)
-
+![Animated GIF of signing in](assets/app_1.gif)
 
 ## Deploying your app
 
@@ -228,7 +227,6 @@ For this example, were going to deploy using Netlify.
 ### Deploy on Netlify
 
 Follow [these instructions](https://create-react-app.dev/docs/deployment/#netlify) to deploy your app to Netlify.
-
 
 ### Register the new location on Amphora Data
 
@@ -245,3 +243,65 @@ Enter the redirect path (default: /#/callback):
 Found existing application: sample_glaze_dashboard
 updated application
 ```
+
+## Creating a dashboard
+
+Now you've connected your app to Amphora, and deployed to the web, it's time to create a dashboard.
+
+We're going to create a simple dashboard for viewing the weather, river water feeds in my home town of Albury.
+
+### Create a dashboard page.
+
+To create a dashboard, we're going to use the <ChartComponent /> from `react-amphora`.
+
+The chart component extends Microsoft's [TSI client library](https://github.com/microsoft/tsiclient), and charts the data from Amphora Signals.
+
+> NOTE: I used [moment.js](https://momentjs.com/) to work with dates.
+
+[Dashboard.tsx](app/src/dashboard/Dashboard.tsx)
+
+```tsx
+import moment from "moment";
+import { SignalsChart } from "react-amphora";
+
+const range: ChartRange = {
+  from: moment().startOf("month").toDate(),
+  to: moment().toDate(),
+};
+
+...
+<SignalsChart
+  noAnimate={true}
+  range={range}
+  legend="hidden"
+  amphoraId="ID of your Amphora"
+//   signals={[]} // an optional list of signals to include. useful if you don't want all the data, or you are hitting rate limits.
+/>;
+```
+
+### Routing to the dashboard
+
+We used a [ProtectedRoute](app/src/ProtectedRoute.tsx) to ensure you can only see the dashboard when signed in. However, the SignalsChart component wouldn't render properly if the user was not signed in.
+
+To put the dashboard under the path `/dashboard`, put a <ProtectedRoute /> inside the <Router />
+
+[App.tsx](app/src/App.tsx)
+
+```tsx
+<Switch>
+  <Route exact path="/" component={Home} />
+  <ProtectedRoute path="/dashboard" component={Dashboard} />
+</Switch>
+```
+
+## The dashboard
+
+Here it is, my custom dashboard in all it's glory!
+
+![Screenshot of dashboard](assets/dashboard_1.png)
+
+[View the Netlify version here](https://hopeful-swirles-ad2660.netlify.app/)
+
+## Learn More
+
+If you want to learn more about the Amphora Data platform or Glaze, head to [amphoradata.com](https://www.amphoradata.com)
