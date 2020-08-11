@@ -2,39 +2,27 @@ import React from "react";
 import {
   BrowserRouter as Router,
   RouteComponentProps,
+  Route,
+  Switch,
   withRouter,
+  Link,
 } from "react-router-dom";
 import { userManager } from "./amphora/userManager";
-import {
-  CallbackPage,
-  SignInButton,
-  UserInformationComponent,
-} from "react-amphora";
-import "./App.css";
-import logo from "./logo.svg";
+import { CallbackPage } from "react-amphora";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { Home } from "./Home";
+import { Dashboard } from "./dashboard/Dashboard";
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <SignInButton alwaysOn={true} />
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <div>
-        <UserInformationComponent />
-      </div>
-    </div>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <ProtectedRoute
+        path="/dashboard"
+        component={Dashboard}
+      />
+    </Switch>
   );
 }
 
