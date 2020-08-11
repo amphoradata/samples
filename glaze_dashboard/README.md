@@ -71,5 +71,60 @@ yarn create react-app app --template typescript
 `react-amphora` is an open source front-end react component library for building Amphora data driven apps. Install it like so:
 
 ```sh
+cd app
 yarn add react-amphora
+```
+
+#### Create a user manager
+
+Amphora used OIDC and OAuth to authenticate users in client applications. We need to setup our user manager (from [oidc-client-js](https://github.com/IdentityModel/oidc-client-js)). Once done, it allows *any* Amphora user to sign into our app!
+
+[amphora/userManager.ts](app/src/amphora/userManager.ts)
+
+```ts
+import { createUserManager } from "react-amphora";
+
+let redirectUri = `${window.location.href}/#/callback`; // this matched the callback path we defined above.
+const userManager = createUserManager({
+  clientId: "f48fed4f-569e-4524-8432-b5ae4444eca4", // replace this with your ID
+  redirectUri,
+});
+
+export { userManager };
+```
+
+#### Create an Amphora Configuration
+
+This enables some customisation of the Amphora API client, but we're just going to use defaults.
+
+[amphora/configuration.ts](app/src/amphora/configuration.ts)
+
+```ts
+import { Configuration } from "amphoradata";
+export const initalConfiguration = new Configuration();
+```
+
+
+### Setup the react-amphora provider
+
+To use `react-amphora`, you wrap a react component in an `<AmphoraProvider>` component, like so:
+
+[index.tsx](app/src/index.tsx)
+
+```tsx
+import { AmphoraProvider } from "react-amphora";
+import { userManager } from "./amphora/userManager";
+import { initalConfiguration } from "./amphora/configuration";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <AmphoraProvider
+      userManager={userManager}
+      configuration={initalConfiguration}
+    >
+      <App />
+    </AmphoraProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
 ```
