@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { SignalsChart } from "react-amphora";
+import { SignalsChart, EnsurePurchased } from "react-amphora";
 import { Signal } from "amphoradata";
 import { ChartRange } from "react-amphora/dist/components/tsi/ChartRange";
 
@@ -48,7 +48,7 @@ const data = {
       title: "Murry River Flows @ Union Bridge",
       range: observationRange,
       signals: [
-          { property: "temperature" },
+        { property: "temperature" },
         { property: "elecConductivity" },
         { property: "waterLevel" },
       ],
@@ -58,7 +58,7 @@ const data = {
       title: "Murry River Flows @ Doctors Point",
       range: observationRange,
       signals: [
-          { property: "temperature" },
+        { property: "temperature" },
         { property: "elecConductivity" },
         { property: "waterLevel" },
       ],
@@ -75,17 +75,23 @@ interface SectionProps {
 
 const sectionStyle: React.CSSProperties = {};
 
-const Section: React.FC<SectionProps> = (props) => {
+const ChartSection: React.FC<SectionProps> = (props) => {
   return (
     <div style={sectionStyle} className="card">
       <h4>{props.title}</h4>
-      <SignalsChart
-        noAnimate={true}
-        range={props.range}
-        legend="hidden"
+      <EnsurePurchased
         amphoraId={props.amphoraId}
-        signals={props.signals}
-      />
+        defaultCanReadContents={false}
+        defaultCanPurchase={true}
+      >
+        <SignalsChart
+          noAnimate={true}
+          range={props.range}
+          legend="hidden"
+          amphoraId={props.amphoraId}
+          signals={props.signals}
+        />
+      </EnsurePurchased>
     </div>
   );
 };
@@ -95,18 +101,18 @@ export const Dashboard: React.FC = () => {
     <div className="container">
       <div className="row">
         <div className="col">
-          <Section {...data.weather.observations.airport} />
+          <ChartSection {...data.weather.observations.airport} />
         </div>
         <div className="col">
-          <Section {...data.weather.forecasts.albury} />
+          <ChartSection {...data.weather.forecasts.albury} />
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <Section {...data.water.murray} />
+          <ChartSection {...data.water.murray} />
         </div>
         <div className="col">
-          <Section {...data.water.doctorsPt} />
+          <ChartSection {...data.water.doctorsPt} />
         </div>
       </div>
     </div>

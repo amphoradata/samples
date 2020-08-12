@@ -296,6 +296,22 @@ To put the dashboard under the path `/dashboard`, put a `<ProtectedRoute />` ins
 </Switch>
 ```
 
+### Ensuring users have access
+
+Using Amphora means differential data access. By default, other users won't have access to the data behind the dashboard, but in this case they can get access by [purchasing](https://www.amphoradata.com/docs/get_data/buy-data) the Amphora.
+
+Using `react-amphora`, we can wrap any component in an EnsurePurchased component. This will check the user has access, and if not, will render a button to purchase it.
+
+[Dashboard.tsx][app/src/dashboard/dashboard.tsx]
+
+```tsx
+import { SignalsChart, EnsurePurchased } from "react-amphora";
+
+<EnsurePurchased amphoraId="an-amphora-id">
+  <SignalsChart amphoraId="an-amphora-id" />
+</EnsurePurchased>
+```
+
 ## The dashboard
 
 Here it is, my custom dashboard in all it's glory!

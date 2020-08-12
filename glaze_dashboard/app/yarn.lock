@@ -8745,10 +8745,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-amphora@^1.5.1-2:
-  version "1.5.1-2"
-  resolved "https://registry.yarnpkg.com/react-amphora/-/react-amphora-1.5.1-2.tgz#4a6171096de99a0e406bd6226bbd64dc21c44890"
-  integrity sha512-OLHpI4CTHPcW6Eqt3r69cgLvQlPm8bXuhtRa6Bmia6Ywlu0K0rsZ2232y9Nv28xT26w3uyg2hIt98LZrloo8bA==
+react-amphora@^1.6.1-2:
+  version "1.6.1-2"
+  resolved "https://registry.yarnpkg.com/react-amphora/-/react-amphora-1.6.1-2.tgz#9ec545525c8d3def745e830faf7150e0b8d71821"
+  integrity sha512-MGplwbcVOTjq+I/Uaawpjg2jXAhu2IBeWeDmmE05ue0KcFpmiRHs9XONenX1iHoOtGiIv7AFjIm3DpcuxzZOXQ==
   dependencies:
     amphoradata "^0.10.15"
     oidc-client "^1.10.1"
