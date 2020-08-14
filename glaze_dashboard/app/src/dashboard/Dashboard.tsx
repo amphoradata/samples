@@ -3,6 +3,8 @@ import moment from "moment";
 import {
   SignalsChart,
   EnsurePurchased,
+  FileList,
+  FileRenderer,
 } from "react-amphora";
 import { Signal } from "amphoradata";
 import { ChartRange } from "react-amphora/dist/components/tsi/ChartRange";
@@ -77,7 +79,11 @@ const ChartSection: React.FC<SectionProps> = (props) => {
   );
 };
 
+const insightsId = "ae086aeb-0275-4072-a636-0c19c713cf41";
+
 export const Dashboard: React.FC = () => {
+  const [alertFile, selectFile] = React.useState<string>();
+
   return (
     <div className="container">
       <div className="row">
@@ -89,7 +95,29 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
       <hr />
-     
+
+      <div className="row">
+        <div className="col">
+          <EnsurePurchased amphoraId={insightsId}>
+            <FileList
+              amphoraId={insightsId}
+              onFileClick={(n) => selectFile(n)}
+            />
+          </EnsurePurchased>
+        </div>
+        <div className="col">
+          <EnsurePurchased amphoraId={insightsId}>
+            <h5>{alertFile}</h5>
+            {alertFile && (
+              <FileRenderer
+                amphoraId={insightsId}
+                file={alertFile}
+                mimeType="text/plain"
+              />
+            )}
+          </EnsurePurchased>
+        </div>
+      </div>
     </div>
   );
 };
