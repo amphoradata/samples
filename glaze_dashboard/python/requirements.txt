@@ -1,1 +1,1 @@
-amphoradata
+amphoradata==0.10.16
