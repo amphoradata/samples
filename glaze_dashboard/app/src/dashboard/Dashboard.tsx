@@ -1,6 +1,9 @@
 import React from "react";
 import moment from "moment";
-import { SignalsChart, EnsurePurchased } from "react-amphora";
+import {
+  SignalsChart,
+  EnsurePurchased,
+} from "react-amphora";
 import { Signal } from "amphoradata";
 import { ChartRange } from "react-amphora/dist/components/tsi/ChartRange";
 
@@ -40,28 +43,6 @@ const data = {
           { property: "pressure" },
         ],
       },
-    },
-  },
-  water: {
-    murray: {
-      amphoraId: "52f4fec3-18e7-4f5a-948c-3a021d7b9ae8",
-      title: "Murry River Flows @ Union Bridge",
-      range: observationRange,
-      signals: [
-        { property: "temperature" },
-        { property: "elecConductivity" },
-        { property: "waterLevel" },
-      ],
-    },
-    doctorsPt: {
-      amphoraId: "910a761c-8a26-4cf6-83d7-b1b3589caf01",
-      title: "Murry River Flows @ Doctors Point",
-      range: observationRange,
-      signals: [
-        { property: "temperature" },
-        { property: "elecConductivity" },
-        { property: "waterLevel" },
-      ],
     },
   },
 };
@@ -107,14 +88,8 @@ export const Dashboard: React.FC = () => {
           <ChartSection {...data.weather.forecasts.albury} />
         </div>
       </div>
-      <div className="row">
-        <div className="col">
-          <ChartSection {...data.water.murray} />
-        </div>
-        <div className="col">
-          <ChartSection {...data.water.doctorsPt} />
-        </div>
-      </div>
+      <hr />
+     
     </div>
   );
 };

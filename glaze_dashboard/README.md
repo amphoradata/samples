@@ -254,7 +254,7 @@ updated application
 
 Now you've connected your app to Amphora, and deployed to the web, it's time to create a dashboard.
 
-We're going to create a simple dashboard for viewing the weather, river water feeds in my home town of Albury.
+We're going to create a simple dashboard for viewing the weather feeds in Albury.
 
 ### Create a dashboard page.
 
