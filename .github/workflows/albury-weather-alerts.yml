@@ -26,10 +26,10 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: pip install -r requirements.txt
-        working-directory: glaze_dashboard
+        working-directory: glaze_dashboard/python
       - name: Run the job
         run: python outliers.py
-        working-directory: glaze_dashboard
+        working-directory: glaze_dashboard/python/jobs
         env:
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
