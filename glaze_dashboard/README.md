@@ -10,6 +10,10 @@ In this tutorial, we're going to build a data driven dashboard, from scratch, us
 
 > If you aren't registered, head to [the app](https://app.amphoradata.com/).
 
+My mum is an avid gardener in Albury. That part of Australia is prone to extreme temperatures: in the summer above 40, and in the winter, overnight frosts. Responding to these weather events in a timely manner is super important to keep your garden thriving. So what I'm going to do is build a dashboard for her to help detect and respond to these events.
+
+Firstly, we're going to build some charts to display weather data (both real-time and forecasts). Then we're going to setup a periodic job to automatically detect weather extremes, and display alerts in the dashboard.
+
 ## Clone this Repository
 
 To begin, clone this repo, and open this directory:
