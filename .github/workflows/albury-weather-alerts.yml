@@ -4,24 +4,32 @@
 name: Albury Weather Alerts
 
 on:
+  push:
+    paths:
+      - "glaze_dashboard/**/*"
+    branches:
+      - master
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '0 14 * * *'
+    # run at midnight australia (MEL) time
+    - cron: "0 14 * * *"
 
 jobs:
   run:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-      working-directory: glaze_dashboard
-    - name: Run the job
-      run: python outliers.py
-      working-directory: glaze_dashboard
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        working-directory: glaze_dashboard
+      - name: Run the job
+        run: python outliers.py
+        working-directory: glaze_dashboard
+        env:
+          username: ${{ secrets.username }}
+          password: ${{ secrets.password }}
